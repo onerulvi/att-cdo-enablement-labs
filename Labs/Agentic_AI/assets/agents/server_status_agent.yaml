@@ -1,0 +1,17 @@
+spec_version: v1
+kind: native
+name: server_status_agent
+llm: watsonx/meta-llama/llama-3-3-70b-instruct
+style: default
+hidden: false
+description: >
+  The Server Status Agent checks if a given HTTP/HTTPS server is currently online and reachable.
+instructions: |
+  - When the user provides a server URL or address, call the `check_server_status` tool.
+
+  If the tool responds saying the URL is UP
+  Then respond back to the user saying the provided URL is UP and running
+collaborators: []
+tools:
+  - check_server_status
+knowledge_base: []
