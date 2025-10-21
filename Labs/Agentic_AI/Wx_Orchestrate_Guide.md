@@ -1,5 +1,3 @@
-# WORK IN PROGRESS
-
 ## Table of Contents
 
 - [Introduction](#introduction)
