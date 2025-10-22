@@ -91,7 +91,7 @@ Watsonx Orchestrate is IBM’s platform for creating, managing, and running AI-d
 - Run the following command below to clone the repository. This will give you the foundational resources to complete the bootcamp.
 
 ```bash
-  git clone https://github.ibm.com/Industrial-CE-Projects/att-cdo-next-labs-guide.git
+  git clone https://github.com/hbavaria/att-cdo-enablement-labs.git
   cd att-cdo-next-labs-guide/Labs/Agentic_AI
 ```
 
