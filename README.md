@@ -9,4 +9,4 @@ Below topics would be covered in these sessions
 5. Data Governance
 6. Agentic AI
    <!-- <img src="./assets1/class structure.png" width="100%"> -->
-   [Setup instructions for the labs](env-setup/README.md) <br>
+[Setup instructions for the labs](env-setup/README.md) <br>
