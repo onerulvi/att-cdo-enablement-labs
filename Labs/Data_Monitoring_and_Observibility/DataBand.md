@@ -1,5 +1,3 @@
-## WORK IN PROGRESS
-
 # Monitor Data Pipelines with IBM Databand
 
 ![1759986281468](image/DataBand/1759986281468.png)
@@ -16,7 +14,7 @@
 8. Triggering the alert
 9. Summary
 
-The following material is meant to teach Lab Users about the additional monitoring andalerting capabilities that Databand brings to DataStage on Cloud Pak for Data as a Service (CP4DaaS). The DataStage flow we will be observing is found in the [Data Integration tutorial](https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/df_data_integrate.html).
+The following material is meant to teach Lab Users about the additional monitoring and alerting capabilities that Databand brings to DataStage on Cloud Pak for Data as a Service (CP4DaaS). The DataStage flow we will be observing is found in the [Data Integration tutorial](https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/df_data_integrate.html).
 
 ## Introduction
 
@@ -36,9 +34,11 @@ Prerequisites
 
 1. Download the DataStage file
 
-Download this [zip file](https://ibm.seismic.com/Link/Content/DCPVPTFPjbR3B8THb9T8289XBM7j) and save it for use where you will create a new DataStage flow.
+Download the **Multicloud_Data_Integration.zip** file from the `assets` folder in this directory (`Labs/Data_Monitoring_and_Observibility/assets/Multicloud_Data_Integration.zip`) and save it for use where you will create a new DataStage flow.
 
-## [Set up the Data Integration Flow](https://cp4d-outcomes.feab05c7.public.multi-containers.ibm.com/integration/level-3/observability#set-up-the-data-integration-flow)
+Alternatively, you can navigate to the file directly: `att-cdo-next-labs-guide/Labs/Data_Monitoring_and_Observibility/assets/Multicloud_Data_Integration.zip`
+
+## Set up the Data Integration Flow
 
 ![1759987331235](image/DataBand/1759987331235.png)
 
@@ -50,24 +50,17 @@ To begin, perform the following steps:
 
 1. If you have not already done so, [Log in to IBM Cloud Pak for Data](https://dataplatform.cloud.ibm.com/). You will use **your personal** Cloud Pak for Data as a Service account in the **Dallas** region to do this lab.
 
-   ![1759987391808](image/DataBand/1759987391808.png)
+![alt text](image/DataBand/data_fabric_login.png)
 
-2. From the Cloud Pak for Data home screen, click **Work with data** to create a new project.
+2. Make sure you are in the Dallas location and using the "Data Fabric" environment:
 
-   ![1759987413448](image/DataBand/1759987413448.png)
+![alt text](image/DataBand/data_fabric_env.png)
 
-3. Click the **Create an empty project** tile.
+3. You should now see project named "ATT_Enablement_YourFirst_YourLast" available for the lab.
 
-   ![1759987436986](image/DataBand/1759987436986.png)
+![alt text](image/DataBand/project_identification.png)
 
-4. Name the project **Databand_YOUR_INITIALS** like the example above. Keep the settings as is (you can optionally add a description), and select a storage instance to use for the project.
-   Then click **Create** .
-
-   ![1759987468480](image/DataBand/1759987468480.png)
-
-**Important** : If you did not provision a Cloud Object Storage Instance in the prerequisites, follow the instructions [here](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-provision) to create one.
-
-5. Once this project is created, select the **Assets** tab in the project overview screen and click the blue **New asset** icon.
+5. Once you access your project, select the **Assets** tab in the project overview screen and click the blue **New asset** icon.
 
 ![1759987498404](image/DataBand/1759987498404.png)
 
@@ -88,7 +81,7 @@ Parallel Job.
 
 ![1759988525730](image/DataBand/1759988525730.png)
 
-## [Sync DataStage with Databand](https://cp4d-outcomes.feab05c7.public.multi-containers.ibm.com/integration/level-3/observability#sync-datastage-with-databand)
+## Sync DataStage with Databand
 
 1. Close the import screen by clicking the **x** in the top right corner. Open the DataStage flow titled **Multicloud Data Integration** by clicking on it.
 
@@ -98,14 +91,13 @@ Parallel Job.
 
    ![1759988797381](image/DataBand/1759988797381.png)
 
-   At this point, your DataStage environment is ready to be integrated with Databand. Open a new web browser tab and go to your **IBM cloud**
-   console by clicking [here](https://cloud.ibm.com/).
+   At this point, your DataStage environment is ready to be integrated with Databand.
 
 ## [Getting started with Databand](https://cp4d-outcomes.feab05c7.public.multi-containers.ibm.com/integration/level-3/observability#getting-started-with-databand)
 
 ![1759989078806](image/DataBand/1759989078806.png)
 
-1. Open a new browser with the [Databand environment](https://ibm-sales-sandbox.databand.ai/app/dashboard).
+1. Open a new browser with the [Databand environment](https://att-poc.use1.databand.ai/app/dashboard).
    Log in using the credentials you were given after signup.
 
 We will now create our DataStage Syncer within Databand. A syncer will
