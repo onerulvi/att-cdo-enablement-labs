@@ -186,12 +186,15 @@ The User API Key is a prerequisite for successful remote deployment and accessin
     # COS buckets 
     HIVE_BUCKET="hive-tor-bucket"
     WXD_BUCKET="milvus-tor-bucket"
-    MILVUS_BUCKET="milvus-tor-bucket"
-    INPUT_BUCKET="input-data-tor-bucket"
 
-    # watsonx data catalogs -> Should not need to change unless provided by instructor
+    # COS credential
+    COS_ACCESS_KEY=
+    COS_SECRET_KEY= 
+
+
+    # watsonx data catalogs 
     HIVE_CATALOG="hive_catalog"
-    ICEBERG_CATALOG="iceberg_data"
+    ICEBERG_CATALOG="iceberg_catalog"
 
 
     # watsonx.data schemas -> Update schemas names to add your name and first 3 letter from surname
@@ -203,16 +206,6 @@ The User API Key is a prerequisite for successful remote deployment and accessin
     # watsonx.ai ->  Copy from your Reference Note
     WATSONX_URL = "https://us-south.ml.cloud.ibm.com"
     WATSONX_PROJECT_ID = ""
-    WATSONX_DEPLOYMENT_SPACE_ID = ""
-
-    # parameters for milvus ingestion -> Should not need to change 
-    SIMILARITY_METRIC="L2"
-    SENTENCE_TRANSFORMER = "sentence-transformers/all-MiniLM-L6-v2"
-    TEXT_SPLITTER_CHUNK_SIZE=1000
-    TEXT_SPLITTER_CHUNK_OVERLAP=200
-    TEXT_SPLITTER_SEPARATORS='[" \n", "\n"]'
-    TEXT_REPLACEMENTS='{"✔": "ok"}'
-    TEXT_SPLITTER_TYPE="RecursiveCharacterTextSplitter"
   
 ### 2.6 Upload env.txt to the watsonx.ai Studio project
 :warning: Make sure you have all values filled in `env.txt` before uploading it to your project.
