@@ -232,13 +232,16 @@ In this lab, it **does not use a knowledge base**. Instead, it calls a `get_data
       ![alt text](attachments/wxo_agent4.png)
       ![alt text](attachments/wxo_agent5.png)
       ![alt text](attachments/wxo_agent6.png)
-- Lastly we must add instructions for our agent. This will explain to the LLM what to do, and how to utilize its tools to acomplish the goal. 1. Scroll down to the **Behavior** section and add the following instructions.
-  ` - Answer questions about the operational status of AT&T’s network based on the provided site and node data.This includes information about nodes, incidents, and overall health of regions or specific locations.
+- Lastly we must add instructions for our agent. This will explain to the LLM what to do, and how to utilize its tools to acomplish the goal.
+  1. Scroll down to the **Behavior** section and add the following instructions.
+  ```
+   - Answer questions about the operational status of AT&T’s network based on the provided site and node data.This includes information about nodes, incidents, and overall health of regions or specific locations.
 
   - Provide your answer as a concise summary. If a location, site ID, or region is mentioned, filter your response accordingly.
-    ` 2. [Writing Behaviors](https://developer.watson-orchestrate.ibm.com/getting_started/guidelines#writing-instructions-for-agents): Next, we scroll down to the **Behavior** section. It is crucial to provide instructions to let agents perform effectively. It decides the behavior of the agent and provides context for how to use its tools and agents.
+    ``` 
+  2. [Writing Behaviors](https://developer.watson-orchestrate.ibm.com/getting_started/guidelines#writing-instructions-for-agents): Next, we scroll down to the **Behavior** section. It is crucial to provide instructions to let agents perform effectively. It decides the behavior of the agent and provides context for how to use its tools and agents.
 
-          ![alt text](attachments/wxo_agent7.png)
+
 
   > **WXO ADK CLI option:** You can import the agent from the ADK CLI by running the following commands in your terminal.
   >
