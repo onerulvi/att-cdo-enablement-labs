@@ -187,11 +187,6 @@ The User API Key is a prerequisite for successful remote deployment and accessin
     HIVE_BUCKET="hive-tor-bucket"
     WXD_BUCKET="milvus-tor-bucket"
 
-    # COS credential
-    COS_ACCESS_KEY=
-    COS_SECRET_KEY= 
-
-
     # watsonx data catalogs 
     HIVE_CATALOG="hive_catalog"
     ICEBERG_CATALOG="iceberg_catalog"
