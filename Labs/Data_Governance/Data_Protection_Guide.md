@@ -56,8 +56,6 @@ pre-configured for you.
 - To verify, in IBM Cloud, Go to `Manage` -> `Access IAM`, then from left menu `Authorizations`.
   ![](./attachments/2025-04-24-12-09-12-pasted-vscode.png)
 
-  You should find authorizations similar to below with your techzone instance
-
   <img src="./attachments/image4.png" alt="alt text" width="100%">
 
   <img src="./attachments/image5.png" alt="alt text" width="100%">
@@ -145,7 +143,7 @@ We will do this by prefixing `FirstInitial+Lastname` for content we add to the c
 
   <img src="./attachments/customertable.png" alt="alt text" width="75%"><br>
 
-- In the `Add asset from connection` window, prepend your name to the table name, for example: **jwales-customers-table**.
+- In the `Add asset from connection` window, prefix your name to the table name, for example: **jwales-customers-table**.
 - Leave the remaining fields as default and Click `Add`
 
   <img src="./attachments/addasset.png" alt="alt text" width="75%"><br>
