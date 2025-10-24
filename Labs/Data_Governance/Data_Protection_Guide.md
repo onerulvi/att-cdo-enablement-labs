@@ -82,6 +82,7 @@ We will do this by prefixing `FirstInitial+Lastname` for content we add to the c
 ### 5.2. Choose your project
 
 - Ensure you have chosen "Data Fabric" perspective
+
   <img src="./attachments/choose_datafabric.png" alt="alt text" width="75%">
 - From the Hamburger menu, select `Projects`, `View all Projects`
 - Select the project which has your name as the suffix
@@ -91,7 +92,7 @@ We will do this by prefixing `FirstInitial+Lastname` for content we add to the c
 ### 6.1 Copy watsonx.data connection info
 
 - From IBM Cloud `Resource list` [https://cloud.ibm.com/resources](https://cloud.ibm.com/resources)
-- Launch `watsonx.data` (Under `Databases`) (into a new window)
+- Launch [watsonx.data](https://us-south.lakehouse.cloud.ibm.com/#/home?crn=crn:v1:bluemix:public:lakehouse:us-south:a/467141891b3c40509380080560f61adc:a2f243a9-4f97-4079-b658-8bcc232ef52d::)
 - From the Hamburger menu, select `Configurations`, `Connection information`
 
   <img src="./attachments/image2.png" alt="alt text" width="25%">
@@ -189,8 +190,8 @@ Since this step has already been set up for you in the shared environment, you c
 ### 10.1 Review and Edit the Existing SLA rules
 
 1. Open the **Hamburger menu**, then select `Governance` > `Rules`.
-2. Search for `SLA-customer-id` and `SLA-verall-score`, and preview the SLA rules that have already been created.
-3. To add you data asset for `SLA-overall-score` click on the `SLA-verall-score`.
+2. Search for `SLA-customer-id` and `SLA-overall-score`, and preview the SLA rules that have already been created.
+3. To add you data asset for `SLA-overall-score` click on the `SLA-overall-score`.
 4. Click on the `Edit rule` button.
 
    <img src="./attachments/edit_sla1.png" alt="alt text" width="75%"><br>
@@ -418,14 +419,6 @@ When you are happy that your data is now properly identified and ready to be gov
 - On Review Assets Page, select `Publish`
 - This will take a few minutes and when finished you will see a message `Publish completed 1 asset has been published to Bootcamp Catalog`
 
-Before
-
-<img src="./attachments/nometadata.png" alt="alt text" width="75%"><br>
-
-After
-
-<img src="./attachments/after2.png" alt="alt text" width="75%"><br>
-
 ## 12. Verify Data Quality SLA compliance information
 
 Earlier in this lab, we reviewed how to create **SLA rules** to monitor data quality. Now, let's verify the **SLA compliance information** for our enriched dataset.
@@ -445,6 +438,17 @@ Earlier in this lab, we reviewed how to create **SLA rules** to monitor data qua
 <img src="./attachments/slaverify3.png" alt="alt text" width="75%"><br>
 
 This step helps ensure that your data meets the established quality standards and that any violations can be identified and addressed through predefined remediation actions.
+
+- From the Hamburger menu, select `Catalogs`, `View all Catalogs`
+- Select the `Bootcamp Catalog` and verify the changes.
+
+Before
+
+<img src="./attachments/nometadata.png" alt="alt text" width="75%"><br>
+
+After
+
+<img src="./attachments/after2.png" alt="alt text" width="75%"><br>
 
 ## 13. Create Data Protection Rule in Cloud Pak for Data
 
