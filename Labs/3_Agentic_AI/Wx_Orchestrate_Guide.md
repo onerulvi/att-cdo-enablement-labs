@@ -4,17 +4,18 @@
   - [Pre-requisites](#pre-requisites)
   - [Watsonx Orchestrate Setup](#watsonx-orchestrate-setup)
   - [Local Dev Environment Setup](#local-dev-environment-setup)
-- [Lab 1: Create Your First Agent](#lab-1:-create-your-first-agent) <!--Tag not working?-->
-  <!-- - [AI Agent Configuration](#ai-agent-configuration)   -->
+  - [ADK Setup](#adk-setup)
+- [Lab 1: Create Your First Agent](#lab-1-create-your-first-agent)
   - [The Network Status Agent](#the-network-status-agent)
   - [The Communication Agent](#the-communication-agent)
-- [Part 2: Agent Development Kit](#lab-2:-agent-development-kit)
+- [Part 2: Agent Development Kit](#part-2-agent-development-kit)
   - [The Incident Diagnosis Agent](#the-incident-diagnosis-agent)
   - [The Server Status Agent](#the-server-status-agent)
   - [The Supervisor Agent](#the-supervisor-agent)
 - [Summary](#summary)
 
-## Introduction
+<details open id="introduction">
+<summary><h2>Introduction</h2></summary>
 
 This use case describes a scenario where a Network Supervisor leverages an AI assistant through a natural language chat interface to investigate, diagnose, and resolve service disruptions. The assistant acts as a central routing point that selects the appropriate specialized agent to satisfy each request, ensuring rapid coordination across tools and knowledge sources.
 
@@ -22,7 +23,7 @@ Agents can be configured in the system to address specific needs of the supervis
 
 In our scenario, we will build agents for **Network Status**, **Server Status**, **Incident Diagnosis**, and **Communications**, all coordinated by a **Supervisor Agent**. This setup allows the Supervisor to ask questions in plain language, such as checking server health, investigating site-specific outages, diagnosing root causes, and drafting updates for field teams.
 
-There is an argument to be made that a truly agentic solution would demonstrate a high degree of autonomy. In such a setup, the system itself could monitor alerts, analyze logs, determine the root cause, generate a remediation plan, and notify stakeholders — all without human intervention. However, we can also maintain a **“human in the loop”** approach, where the Supervisor drives the workflow step by step, verifying outputs from each agent before proceeding to the next stage. This flexibility allows organizations to balance automation with oversight.
+There is an argument to be made that a truly agentic solution would demonstrate a high degree of autonomy. In such a setup, the system itself could monitor alerts, analyze logs, determine the root cause, generate a remediation plan, and notify stakeholders — all without human intervention. However, we can also maintain a **"human in the loop"** approach, where the Supervisor drives the workflow step by step, verifying outputs from each agent before proceeding to the next stage. This flexibility allows organizations to balance automation with oversight.
 
 <div style="border: 2px solid black; padding: 10px;">
 Even though we will take you through a complete and working example, you should also consider making changes that fit your desired use case, and only take this description as a reference point that guides you along your own implementation.
@@ -30,7 +31,8 @@ Even though we will take you through a complete and working example, you should 
 
 ---
 
-### Pre-requisites
+<details open id="pre-requisites">
+<summary><h3>Pre-requisites</h3></summary>
 
 1. Completed [Environment Setup](/env-setup/README.md)
 
@@ -53,11 +55,12 @@ Once these prerequisites are installed, you will be ready to set up the dev envi
 - Check with your instructor to ensure **all systems** are up and running before you continue.
 <!-- - If you're an instructor running this lab, check the **Instructor's guides** to set up all environments and systems.   -->
 
----
+</details>
 
-### Watsonx Orchestrate Setup
+<details open id="watsonx-orchestrate-setup">
+<summary><h3>Watsonx Orchestrate Setup</h3></summary>
 
-Watsonx Orchestrate is IBM’s platform for creating, managing, and running AI-driven digital workers and agentic flows. In this bootcamp, you will be provided an IBM Cloud SaaS instance of Orchestrate. Follow the steps below to gain access to your Orchestrate Instance:
+Watsonx Orchestrate is IBM's platform for creating, managing, and running AI-driven digital workers and agentic flows. In this bootcamp, you will be provided an IBM Cloud SaaS instance of Orchestrate. Follow the steps below to gain access to your Orchestrate Instance:
 
 1. **Access your Orchestrate Instance**
 
@@ -84,9 +87,10 @@ Watsonx Orchestrate is IBM’s platform for creating, managing, and running AI-d
      Once complete you should recieve an API Key. Save this key.
      ![alt text](attachments/IAM_API_KEY_Download.png)
 
----
+</details>
 
-#### Local Dev Environment Setup
+<details open id="local-dev-environment-setup">
+<summary><h3>Local Dev Environment Setup</h3></summary>
 
 - Run the following command below to clone the repository. This will give you the foundational resources to complete the bootcamp.
 
@@ -112,9 +116,10 @@ Watsonx Orchestrate is IBM’s platform for creating, managing, and running AI-d
         pip install ibm-watsonx-orchestrate
     ```
 
----
+</details>
 
-#### ADK Setup
+<details open id="adk-setup">
+<summary><h3>ADK Setup</h3></summary>
 
 1. [Creating an environment](https://developer.watson-orchestrate.ibm.com/environment/initiate_environment#creating-an-environment): Go to vscode and open the terminal. Make sure you are in the directory inside the cloned repo. The use the command:
 
@@ -132,7 +137,12 @@ Replace the environment-name with a name of your choice, and the service-instanc
 
 Replace environment-name with the name you chose from before.
 
-## Lab1: Create Your First Agent
+</details>
+
+</details>
+
+<details open id="lab-1-create-your-first-agent">
+<summary><h2>Lab1: Create Your First Agent</h2></summary>
 
 In this lab, we will configure a set of 4 agents and 1 supervisor agent inside **Watsonx Orchestrate**. Each agent has a distinct responisbility and a unique toolset to comeplete a specific role in the incident response agentic system. The **Supervisor Agent** coordinates work among the agents by orchestrating requests to the appropriate agent. Below you will find an outline of all the agents we will build during this lab.
 
@@ -140,13 +150,13 @@ In this lab, we will configure a set of 4 agents and 1 supervisor agent inside *
 
 - **Purpose**: Answers queries about the operational status of the network — including regions, sites, nodes, and active incidents.
 - **Tooling**: This agent connects to a **get_data tool** provided through an OpenAPI JSON file, enabling retrieval of up-to-date network data.
-- **Usage**: Handles queries like “What is the status of site S002?” or “Are there any ongoing outages in the Northeast region?”
+- **Usage**: Handles queries like "What is the status of site S002?" or "Are there any ongoing outages in the Northeast region?"
 
 ##### Communications Agent
 
 - **Purpose**: Drafts professional and concise email updates for internal or external stakeholders about incidents or operational changes.
 - **Tooling**: This agent integrates with **Outlook** using an imported **OpenAPI JSON tool**, which enables it to send notification emails automatically.
-- **Usage**: When the Supervisor requests an incident update for the “Los Angeles AT&T Network team,” this agent generates the email body and sends it through Outlook.
+- **Usage**: When the Supervisor requests an incident update for the "Los Angeles AT&T Network team," this agent generates the email body and sends it through Outlook.
 
 ##### Incident Diagnosis Agent
 
@@ -159,7 +169,7 @@ In this lab, we will configure a set of 4 agents and 1 supervisor agent inside *
 
 - **Purpose**: Verifies whether a specific server or URL is currently online and reachable.
 - **Tools**: Uses a server check tool to confirm availability.
-- **Usage**: Handles requests like “Check if ATT.com is up.”
+- **Usage**: Handles requests like "Check if ATT.com is up."
 
 ##### Supervisor Agent
 
@@ -174,12 +184,13 @@ In this lab, we will configure a set of 4 agents and 1 supervisor agent inside *
 Together, these agents form the backbone of the **Supervisor Assistant**. The Supervisor Agent orchestrates their interactions so that complex workflows (incident detection → diagnosis → remediation → communication) can be completed in a seamless conversational flow. Lets get started!
 
 <!-- ### Importing agents using the watsonx Orchestrate Console
-**Accessing the console**: Navigate to the Watsonx Orchestrate home page. In the left-hand navigation menu, click on build to expand the menu and click on “Agent Builder”.
+**Accessing the console**: Navigate to the Watsonx Orchestrate home page. In the left-hand navigation menu, click on build to expand the menu and click on "Agent Builder".
 ![alt text](attachments/wxo_homepage.png)
 
 Agents depend on tools to perform their functions. When you define an agent, you specify which tools it can use in the tools section. The system needs the tools to exist before it can validate and import an agent that references them. -->
 
-### The Network Status Agent
+<details open id="the-network-status-agent">
+<summary><h3>The Network Status Agent</h3></summary>
 
 <!-- The **Network Status Agent** answers questions about network health (regions, sites, nodes, active incidents).
 In this lab, it **does not use a knowledge base**. Instead, it calls a `get_data` tool defined via an **OpenAPI JSON** so responses are fetched live from the source. -->
@@ -197,7 +208,7 @@ In this lab, it **does not use a knowledge base**. Instead, it calls a `get_data
       ![alt text](attachments/wxo_tool4.png)
   3.  Verify you see an entry for `get_data` tool under the tools homepage.
   4.  If you're using a shared environment change the name of your tool not to overwrite other users work.
-      ![alt text](image-7.png)
+      ![alt text](attachments/image-7.png)
 
 > **WXO ADK CLI option:** You can import the OpenAPI tool from the ADK CLI by running the following commands in your terminal.
 >
@@ -217,7 +228,7 @@ In this lab, it **does not use a knowledge base**. Instead, it calls a `get_data
   3.  Give your agent a name. `network_status_agent_(with initials)`
       - If you're in a shared WXO instance remember to make your name is unique.
   4.  Add a description for your agent.
-      - [Writing Descriptions](https://developer.watson-orchestrate.ibm.com/getting_started/guidelines#writing-descriptions-for-agents): It is necessary to provide well-crafted descriptions for your agents. These descriptions are used by supervisor agents to determine how to route user requests. It helps the agent decide when to consume this agent as a collaborator when it is added to the agent’s collaborator list.
+      - [Writing Descriptions](https://developer.watson-orchestrate.ibm.com/getting_started/guidelines#writing-descriptions-for-agents): It is necessary to provide well-crafted descriptions for your agents. These descriptions are used by supervisor agents to determine how to route user requests. It helps the agent decide when to consume this agent as a collaborator when it is added to the agent's collaborator list.
       ```
       The Network Status Agent specializes in answering inquiries about the current operational status of AT&T's network. It has access to up-to-date data about nodes sites, and services—such as cell towers, routers, and backhaul links—summarizes ongoing incidents, and provides a concise overview to the user.
       ```
@@ -233,20 +244,24 @@ In this lab, it **does not use a knowledge base**. Instead, it calls a `get_data
       ![alt text](attachments/wxo_agent5.png)
       ![alt text](attachments/wxo_agent6.png)
 - Lastly we must add instructions for our agent. This will explain to the LLM what to do, and how to utilize its tools to acomplish the goal.
-  1. Scroll down to the **Behavior** section and add the following instructions.
-  ```
-   - Answer questions about the operational status of AT&T’s network based on the provided site and node data.This includes information about nodes, incidents, and overall health of regions or specific locations.
 
-  - Provide your answer as a concise summary. If a location, site ID, or region is mentioned, filter your response accordingly.
-    ``` 
-  2. [Writing Behaviors](https://developer.watson-orchestrate.ibm.com/getting_started/guidelines#writing-instructions-for-agents): Next, we scroll down to the **Behavior** section. It is crucial to provide instructions to let agents perform effectively. It decides the behavior of the agent and provides context for how to use its tools and agents.
+  1.  Scroll down to the **Behavior** section and add the following instructions.
 
+      ```
+      Answer questions about the operational status of AT&T's network based on the provided site and node data.This includes information about nodes, incidents, and overall health of regions or specific locations.
 
+      Provide your answer as a concise summary. If a location, site ID, or region is mentioned, filter your response accordingly.
 
-  > **WXO ADK CLI option:** You can import the agent from the ADK CLI by running the following commands in your terminal.
-  >
-  > - Run: `orchestrate agents import -f assets/agents/network_status_agent.yaml`
-  > - Verify: `orchestrate agents list` → you should see `network_status_agent`
+      ```
+
+2. [Writing Behaviors](https://developer.watson-orchestrate.ibm.com/getting_started/guidelines#writing-instructions-for-agents): Next, we scroll down to the **Behavior** section. It is crucial to provide instructions to let agents perform effectively. It decides the behavior of the agent and provides context for how to use its tools and agents.
+
+![alt text](attachments/wxo_agent7.png)
+
+> **WXO ADK CLI option:** You can import the agent from the ADK CLI by running the following commands in your terminal.
+>
+> - Run: `orchestrate agents import -f assets/agents/network_status_agent.yaml`
+> - Verify: `orchestrate agents list` → you should see `network_status_agent`
 
 **Step 3.** Now its time to test our agent
 
@@ -257,8 +272,8 @@ In this lab, it **does not use a knowledge base**. Instead, it calls a `get_data
 
 ##### Quick sanity check:
 
-- Ask a scoped question (e.g., “What’s the status of site S002?”). The agent should call `get_data` behind the scenes.
-- If responses look generic, confirm the tool name in the YAML matches the imported tool’s name exactly (`get_data`), and that the OpenAPI paths/servers are reachable.
+- Ask a scoped question (e.g., "What's the status of site S002?"). The agent should call `get_data` behind the scenes.
+- If responses look generic, confirm the tool name in the YAML matches the imported tool's name exactly (`get_data`), and that the OpenAPI paths/servers are reachable.
 
 ##### Common troubleshooting tips:
 
@@ -268,9 +283,10 @@ In this lab, it **does not use a knowledge base**. Instead, it calls a `get_data
 
 Congratulations you've just completed building your frist Agent. The **Network Status Agent** is ready. It will now route natural-language queries to the `get_data` tool to return live network status.
 
----
+</details>
 
-### The Communication Agent
+<details open id="the-communication-agent">
+<summary><h3>The Communication Agent</h3></summary>
 
 The **Communications Agent** is responsible for drafting clear and professional notification emails about network incidents or operational updates.
 
@@ -291,12 +307,6 @@ This tool provides the functionality for the agent to send emails via the Outloo
       ![alt text](attachments/image-5.png)
       ![alt text](attachments/image-6.png)
 
-#
-
-#
-
-#
-
 > **WXO ADK CLI option:** You can import the tool from the ADK CLI by running the following commands in your terminal.
 >
 > - Run: `orchestrate tools import -k openapi -f assets/tools/outlook_email_openapi.json`
@@ -316,7 +326,7 @@ This tool provides the functionality for the agent to send emails via the Outloo
       - If you're in a shared WXO instance remember to make your name is unique.
   4.  Add a description for your agent.
 
-      - [Writing Descriptions](https://developer.watson-orchestrate.ibm.com/getting_started/guidelines#writing-descriptions-for-agents): It is necessary to provide well-crafted descriptions for your agents. These descriptions are used by supervisor agents to determine how to route user requests. It helps the agent decide when to consume this agent as a collaborator when it is added to the agent’s collaborator list.
+      - [Writing Descriptions](https://developer.watson-orchestrate.ibm.com/getting_started/guidelines#writing-descriptions-for-agents): It is necessary to provide well-crafted descriptions for your agents. These descriptions are used by supervisor agents to determine how to route user requests. It helps the agent decide when to consume this agent as a collaborator when it is added to the agent's collaborator list.
 
       ```
        The Communications Agent specializes in drafting internal or external notification emails and messages regarding network incidents or operational updates.
@@ -338,8 +348,8 @@ This tool provides the functionality for the agent to send emails via the Outloo
   - Do not ask for the recipient email address during drafting.
   - Only use the 'Send Email Outlook' tool when the user explicitly asks to send an email.
   - When using the Send email tool ensure to convert the drafted email into HTML for the content field.
-  - If the user asks to send an email but does not provide a recipient email address, do not send the email under any circumstances until the user inputs “email” field
-  - Immediately ask the user: "What is the recipient’s email address?"
+  - If the user asks to send an email but does not provide a recipient email address, do not send the email under any circumstances until the user inputs "email" field
+  - Immediately ask the user: "What is the recipient's email address?"
   - Wait for the user to provide the email. Do not proceed until the user explicitly enters it.
   - *Strictly follow this**: After the user provides recipient email address: Display it back to the user and ask: "Please confirm if this is correct: [email]".
   - Do not ask unrelated follow-up questions.
@@ -363,9 +373,12 @@ This tool provides the functionality for the agent to send emails via the Outloo
 - The agent should generate a professional email body.
 - If the Outlook tool is configured, you can also instruct it to send the email directly by asking `Send the above email to {email_id}`.
 
----
+</details>
 
-## Part 2: Agent Development Kit
+</details>
+
+<details open id="part-2-agent-development-kit">
+<summary><h2>Part 2: Agent Development Kit</h2></summary>
 
 The Agent Development Kit (ADK) gives you a set of developer-focused tools to build, test, and manage agents in watsonx Orchestrate. With the ADK, you take full control of agent design using a lightweight framework and a simple CLI.
 Define agents in clear YAML or JSON files, create custom Python tools, and manage the entire agent lifecycle with just a few commands.
@@ -375,7 +388,8 @@ Define agents in clear YAML or JSON files, create custom Python tools, and manag
 - Run `orchestrate models list` to see all the available LLMs you can assign to agents.
 - Read the [documentation](https://developer.watson-orchestrate.ibm.com/getting_started/what_is) to get a better understanding.
 
-### The Incident Diagnosis Agent
+<details open id="the-incident-diagnosis-agent">
+<summary><h3>The Incident Diagnosis Agent</h3></summary>
 
 The **Incident Diagnosis Agent** is responsible for analyzing incident logs, tagging them with the most likely root cause, and suggesting a resolution plan.  
 It relies on a Python tool to parse logs and a knowledge base of resolution guides for remediation steps.
@@ -446,11 +460,6 @@ Knowledge Bases refer to Vector Stores that allow your Agents to query unstructu
   2. Modify the retrieval criteria and save
      ![alt text](attachments/kb5.png)
 
-<!--  -->
-<!--  -->
-<!--  -->
-<!--  -->
-
 > **WXO ADK CLI option:** You can import the Knowledge Base from the ADK CLI by running the following commands in your terminal.
 >
 > - Run: `orchestrate knowledge-bases import -f assets/knowledge_bases/incident_resolution_guides.yaml`
@@ -472,9 +481,10 @@ Knowledge Bases refer to Vector Stores that allow your Agents to query unstructu
 
 The **Incident Diagnosis Agent** is now ready. It can be invoked directly or through the Supervisor Agent to analyze logs and recommend remediation steps.
 
----
+</details>
 
-### The Server Status Agent
+<details open id="the-server-status-agent">
+<summary><h3>The Server Status Agent</h3></summary>
 
 The **Server Status Agent** checks whether a given server or URL is reachable.  
 This is useful for quickly validating if a service endpoint is online when an incident is reported.
@@ -499,7 +509,7 @@ This binds the **Server Status Agent** to the `check_server_status` tool you jus
 
 #### 3) Quick sanity checks
 
-- Ask: “Check if ATT.com is up.”
+- Ask: "Check if ATT.com is up."
 - The agent should call the `check_server_status` tool and return whether the server is reachable.
 - If no response or an error occurs, confirm the tool is present and correctly linked to the agent.
 
@@ -511,11 +521,12 @@ This binds the **Server Status Agent** to the `check_server_status` tool you jus
 
 The **Server Status Agent** is now ready. It can be queried directly or invoked by the Supervisor Agent to check server availability in real time.
 
----
+</details>
 
-### The Supervisor Agent
+<details open id="the-supervisor-agent">
+<summary><h3>The Supervisor Agent</h3></summary>
 
-The **Supervisor Agent** acts as the routing brain for this use case. It interprets a user’s request and delegates the task to the correct specialist agent:
+The **Supervisor Agent** acts as the routing brain for this use case. It interprets a user's request and delegates the task to the correct specialist agent:
 
 - **Network Status Agent** → network/site health questions
 - **Server Status Agent** → server/URL reachability
@@ -564,27 +575,27 @@ This registers the **Supervisor Agent** and declares its collaborators (the four
 
 Try these natural-language prompts to validate routing:
 
-- “**What’s the status of site S002?**” → should route to **Network Status Agent** (calls `get_data`)
-- “**Check if ATT.com is up.**” → should route to **Server Status Agent** (calls `check_server_status`)
-- “**Here’s an incident log 'BGP session dropped due to incorrect neighbor settings in config push from NOC.' what’s the root cause and fix?**” → should route to **Incident Diagnosis Agent** (uses `diagnose_incident_log`, consults resolution guides if configured)
-- “**Draft a clear email addressing the above issue and the resolution steps involved.**” → should route to **Communications Agent**
-- ”**Send the above email to {email_id}**” → (send via Outlook if configured)
+- "**What's the status of site S002?**" → should route to **Network Status Agent** (calls `get_data`)
+- "**Check if ATT.com is up.**" → should route to **Server Status Agent** (calls `check_server_status`)
+- "**Here's an incident log 'BGP session dropped due to incorrect neighbor settings in config push from NOC.' what's the root cause and fix?**" → should route to **Incident Diagnosis Agent** (uses `diagnose_incident_log`, consults resolution guides if configured)
+- "**Draft a clear email addressing the above issue and the resolution steps involved.**" → should route to **Communications Agent**
+- "**Send the above email to {email_id}**" → (send via Outlook if configured)
 
 #### 4) Common troubleshooting tips
 
 - **Agent not found:** Re-run `orchestrate agents list`. If `supervisor_agent` is missing, re-import `assets/agents/supervisor_agent.yaml`.
-- **Wrong route chosen:** Check the Supervisor’s instruction/routing rules. Ensure keywords in your test prompts align with the rules (e.g., “status/site/node/incident” → network status).
+- **Wrong route chosen:** Check the Supervisor's instruction/routing rules. Ensure keywords in your test prompts align with the rules (e.g., "status/site/node/incident" → network status).
 - **Tool call fails downstream:** Confirm the target specialist agent is correctly bound to its tool (e.g., `get_data`, `check_server_status`, `diagnose_incident_log`) and that the tool exists in `orchestrate tools list`.
 - **Name mismatches:** The collaborator names in the Supervisor must match the registered agent names exactly.
 
 #### 5) Bonus Challenge: Override the Default Greeting
 
-By default, new agents start with “Hello! I am watsonx Orchestrate, an AI assistant, created by IBM. How can I help you today?”. You can override this in the Orchestrate Console.
+By default, new agents start with "Hello! I am watsonx Orchestrate, an AI assistant, created by IBM. How can I help you today?". You can override this in the Orchestrate Console.
 
 1. Go to the Orchestrate Console.
 2. In the left-hand navigation (hamburger menu), go to Build → Agent Builder.
 3. Click on `supervisor_agent` to view its details.
-4. Edit the Agent Behavior in a way it says "Hello, I’m the Supervisor. I can help you check network and server status, diagnose incidents, or draft communications. How can I help you today?"
+4. Edit the Agent Behavior in a way it says "Hello, I'm the Supervisor. I can help you check network and server status, diagnose incidents, or draft communications. How can I help you today?"
    > Here are some things you may want to try:
    >
    > - Role clarity: Specify to the agent that it should clearly identify itself as the Supervisor.
@@ -597,9 +608,12 @@ By default, new agents start with “Hello! I am watsonx Orchestrate, an AI assi
 
 The **Supervisor Agent** is now ready. It provides a single conversational entry point and automatically delegates tasks to the right agent, enabling an end-to-end incident flow.
 
----
+</details>
 
-## Summary
+</details>
+
+<details id="summary">
+<summary><h2>Summary</h2></summary>
 
 In this lab, we explored the use case of a Supervisor managing network incidents with the help of an agentic AI solution. We began by creating specialized agents for network status checks, server availability, incident diagnosis, and stakeholder communications. Each agent was connected to the right tools and data sources — for example, the Network Status Agent used an OpenAPI tool to fetch live site data, while the Communications Agent leveraged Outlook integration to send updates.
 
@@ -608,3 +622,5 @@ Finally, we brought everything together through the **Supervisor Agent**, which 
 This exercise provides a reference implementation to help you understand how multiple specialized agents can be orchestrated in **watsonx Orchestrate (SaaS)**. Some aspects are simulated, and in a production environment you would extend the integrations with real systems of record, monitoring platforms, and communication services. A truly agentic solution would go further by adding reasoning and planning capabilities, allowing the system to autonomously investigate, resolve, and communicate about incidents end-to-end.
 
 Our goal here is to give you a starting point and spark ideas about how to apply agentic AI in real operational contexts. With these foundations, you can begin experimenting with automating parts of your own workflows and consider where autonomous AI decision-making could add the most value.
+
+</details>

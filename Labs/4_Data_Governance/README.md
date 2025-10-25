@@ -3,35 +3,23 @@
 - [watsonx.data intelligence](#watsonxdata-intelligence)
   - [1. Introduction](#1-introduction)
   - [2. Prerequisites:](#2-prerequisites)
-  - [3. Configure Service to Service Integration](#3-configure-service-to-service-integration)
-  - [4. Create Catalog in watsonx.data Intelligence](#4-create-catalog-in-watsonxdata-intelligence)
-  - [5. Data Curation](#5-data-curation)
-    - [5.1 Access watsonx.data Intelligence service](#51-access-watsonxdata-intelligence-service)
-    - [5.2. Choose your Project](#52-choose-your-project)
-  - [6. Add a Connection to the watsonx.data Data Source](#6-add-a-connection-to-the-watsonxdata-data-source)
-    - [6.1 Copy watsonx.data connection info](#61-copy-watsonxdata-connection-info)
-    - [6.2 Open Bootcamp Catalog](#62-open-bootcamp-catalog)
-    - [6.3 Add a Connection to your watsonx.data Instance](#63-add-a-connection-to-your-watsonxdata-instance)
-  - [7. Add the watsonx.data connected asset to the watsonx.data Intelligence Catalog](#7-add-the-watsonxdata-connected-asset-to-the-watsonxdata-intelligence-catalog)
-  - [8. Browse the imported Asset](#8-browse-the-imported-asset)
-  - [9. Preview Profile Data for Imported Asset](#9-preview-profile-data-for-imported-asset)
-  - [10. Create Data Quality SLA Rules](#10-create-data-quality-sla-rules)
-    - [10.1 Review and Edit the Existing SLA rules](#101-review-and-edit-the-existing-sla-rules)
-    - [10.2 To create a data quality SLA rule](#102-to-create-a-data-quality-sla-rule-if-needed-in-the-future)
-  - [11. Enrich Data for Imported Asset](#11-enrich-data-for-imported-asset)
-    - [11.1 Set Enrichment Options](#111-set-enrichment-options)
-    - [11.2 Create Metadata Enrichment Job](#112-create-metadata-enrichment-job)
-    - [11.3 Review Enrichment Results](#113--review-enrichment-results)
-    - [11.4 Add Enriched data back to the Catalog](#114--add-enriched-data-back-to-the-catalog)
-  - [12.Verify Data Quality SLA compliance information](#12-verify-data-quality-sla-compliance-information)
-  - [13. Create Data Protection Rule in Cloud Pak for Data](#13-create-data-protection-rule-in-cloud-pak-for-data)
-  - [14. Add Service Integration in watsonx.data to watsonx.data Intelligence](#14-add-service-integration-in-watsonxdata-to-watsonxdata-intelligence)
-  - [15. Add restricted user access to watsonx.data](#15-add-restricted-user-access-to-watsonxdata)
-    - [15.1 Add access to Infrastructure Components](#151-add-access-to-infrastructure-components)
-    - [15.2 Add Policy to iceberg data](#152-add-policy-to-iceberg-data)
-  - [16 Verify Data Protection Rule is being enforced (Demonstration)](#16-verify-data-protection-rule-is-being-enforced-demonstration)
+  - [3. Create Catalog in watsonx.data Intelligence](#3-create-catalog-in-watsonxdata-intelligence)
+  - [4. Create Data Quality SLA Rules](#4-create-data-quality-sla-rules)
+    - [4.1 Review and Edit the Existing SLA rules](#41-review-and-edit-the-existing-sla-rules)
+    - [4.2 To create a data quality SLA rule](#42-to-create-a-data-quality-sla-rule-if-needed-in-the-future)
+  - [5. Data Curation And Enrichment](#5-data-curation-and-enrichment)
+    - [5.1 Import Metadata](#51-import-metadata)
+    - [5.2 Enrich Data for Imported Asset](#52-enrich-data-for-imported-asset)
+  - [6. Verify Data Quality SLA compliance information](#6-verify-data-quality-sla-compliance-information)
+  - [7. Create Data Protection Rule in Cloud Pak for Data](#7-create-data-protection-rule-in-cloud-pak-for-data)
+  - [8. Add Service Integration in watsonx.data to watsonx.data Intelligence](#8-add-service-integration-in-watsonxdata-to-watsonxdata-intelligence)
+  - [9. Add restricted user access to watsonx.data](#9-add-restricted-user-access-to-watsonxdata)
+    - [9.1 Add access to Infrastructure Components](#91-add-access-to-infrastructure-components)
+    - [9.2 Add Policy to iceberg data](#92-add-policy-to-iceberg-data)
+  - [10. Verify Data Protection Rule is being enforced (Demonstration)](#10-verify-data-protection-rule-is-being-enforced-demonstration)
 
-## 1. Introduction
+<details open id="1-introduction">
+<summary><h2>1. Introduction</h2></summary>
 
 This lab will take you through the high level steps below to demonstrate how to implement data protection rule enforcement in watsonx.data.
 
@@ -39,28 +27,23 @@ Because we are working in a shared watsonx.data intelligence (wxi) environment, 
 
 <img src="./attachments/image1.png" alt="alt text" width="75%">
 
-## 2. Prerequisites:
+</details>
 
-- Completed [Environment Setup](/env-setup/README.md)
-- instructor prepared Bootcamp Catalog, imported business glossary and created data protection rules.
+<details id="2-prerequisites">
+<summary><h2>2. Prerequisites:</h2></summary>
 
-## 3. Configure Service to Service Integration
+- <strong>Note:</strong> The instructor had already created Enablement Catalog, imported business glossary and created data protection rules.
 
-[Documentation link](https://dataplatform.cloud.ibm.com/docs/content/wsj/governance/wkc-wxd-integration.html?context=cpdaas&locale=en&audience=wdp)
+**Access watsonx.data Intelligence service**
 
-Before you can start working with data protection rules on watsonx.data
-assets, you must authorize the `watsonx.data` and `watsonx.data intelligence` services to access each other. For
-ease of use, these authorizations for the bootcamp have been
-pre-configured for you.
+[Service](https://dataplatform.cloud.ibm.com/home2?context=cpdaas)
 
-- To verify, in IBM Cloud, Go to `Manage` -> `Access IAM`, then from left menu `Authorizations`.
-  ![](./attachments/2025-04-24-12-09-12-pasted-vscode.png)
+</details>
 
-  <img src="./attachments/image4.png" alt="alt text" width="100%">
+<details id="3-create-catalog-in-watsonxdata-intelligence">
+<summary><h2>3. Create Catalog in watsonx.data Intelligence</h2></summary>
 
-  <img src="./attachments/image5.png" alt="alt text" width="100%">
-
-## 4. Create Catalog in watsonx.data Intelligence
+<strong>⚠️ Warning:</strong> For the enablement session, the catalog has been created for you and will be shared by all students. For this reason, it's important that the connections and assets that we add in the lab are uniquely named.
 
 The Catalog is the place where we will make watson.data connections and
 data assets available to the business users.
@@ -69,125 +52,20 @@ When creating a catalog it's required to enable the option to `Enforce data prot
 
 <img src="./attachments/image6.png" alt="alt text" width="100%"><br>
 
-For the bootcamp, the catalog has been created for you and will be shared by all students. For this reason, it’s important that the connections and assets that we add in the lab are uniquely named.
+For the enablement, the catalog has been created for you and will be shared by all students. For this reason, it's important that the connections and assets that we add in the lab are uniquely named.
 
 We will do this by prefixing `FirstInitial+Lastname` for content we add to the catalog.
 
-## 5. Data Curation
+</details>
 
-### 5.1 Access watsonx.data Intelligence service
-
-[Service](https://dataplatform.cloud.ibm.com/df/home?context=df)
-
-### 5.2. Choose your project
-
-- Ensure you have chosen "Data Fabric" perspective
-
-  <img src="./attachments/choose_datafabric.png" alt="alt text" width="75%">
-- From the Hamburger menu, select `Projects`, `View all Projects`
-- Select the project which has your name as the suffix
-
-## 6. Add a Connection to the watsonx.data Data Source
-
-### 6.1 Copy watsonx.data connection info
-
-- From IBM Cloud `Resource list` [https://cloud.ibm.com/resources](https://cloud.ibm.com/resources)
-- Launch [watsonx.data](https://us-south.lakehouse.cloud.ibm.com/#/home?crn=crn:v1:bluemix:public:lakehouse:us-south:a/467141891b3c40509380080560f61adc:a2f243a9-4f97-4079-b658-8bcc232ef52d::)
-- From the Hamburger menu, select `Configurations`, `Connection information`
-
-  <img src="./attachments/image2.png" alt="alt text" width="25%">
-
-- Under Engine and service connection details
-- Select your presto engine
-- Copy `Hostname` and `Port`(to clipboard)
-
-  <img src="./attachments/image3_connection.png" alt="alt text" width="75%"> <br>
-
-- Paste to your text Reference notes (you will use this in the next step)
-
-### 6.2 Open Bootcamp Catalog
-
-- Go back to the `watsonx.data Intelligence` service.
-- From the Hamburger menu, select `Catalogs`, `View all Catalogs`
-- Select the `Bootcamp Catalog`
-
-### 6.3 Add a Connection to your watsonx.data Instance
-
-- Select `Add to Catalog`, `Connection` in the right corner
-- Search for and select `Presto` from left hand set of connectors
-- Select `Presto` and click Next
-
-  <img src="./attachments/image8.png" alt="alt text" width="60%">
-
-- Under **Name**, prefix your **FirstInitialLastName**, e.g., `jwales Presto`.
-- In the **Hostname or IP address** field, enter the Hostname copied in step **6.1 Copy watsonx.data connection info**.
-- In the **Port** field, enter the port copied in step **6.1 Copy watsonx.data connection info**.
-- In the **Username** field, enter `ibmlhapikey_<IBM id>`. Replace `<IBM id>` with your actual IBM ID.
-- In the **Password** field, paste your `cloud-api-key` (created during the environment setup).
-- Tick the checkbox next to **Port is SSL-enabled**.
-- Click **Test connection** (located in the upper-right corner).
-- Once the test is successful, click **Create**.
-
-  <img src="./attachments/image9.png" alt="alt text" width="75%">
-
-## 7. Add the watsonx.data connected asset to the watsonx.data Intelligence Catalog
-
-- From the left hand corner select `Add to catalog`, `Connected Asset`
-
-  <img src="./attachments/image11.png" alt="alt text" width="25%">
-
-- Click on `Select Source`
-
-  <img src="./attachments/image12.png" alt="alt text" width="50%">
-
-- Under available `Connections`, select [your Presto Connection], select `postgres_catalog`, select the `bankdemo` schema and finally the `customers_table` and click `Select`
-
-  <img src="./attachments/customertable.png" alt="alt text" width="75%"><br>
-
-- In the `Add asset from connection` window, prefix your name to the table name, for example: **jwales-customers-table**.
-- Leave the remaining fields as default and Click `Add`
-
-  <img src="./attachments/addasset.png" alt="alt text" width="75%"><br>
-
-- You should see your connection and data asset in `Recently added` Assets
-
-  <img src="./attachments/image14.png" alt="alt text" width="25%"><br>
-
-## 8. Browse the imported Asset
-
-- Select your Data Asset that you just imported
-- Notice the table has no data quality, no business terms, and no Description.
-
-  <img src="./attachments/nometadata.png" alt="alt text" width="75%"><br>
-
-- Select `Assets` tab and preview column info
-- Here we see SSN and Email addresses that we will want to protect.
-
-  <img src="./attachments/protectcolumns.png" alt="alt text" width="75%"><br>
-
-## 9. Preview Profile Data for Imported Asset
-
-Profiling in Watsonx.data intelligence involves analyzing columns of data assets to understand their structure and content. This analysis includes computing statistics about the data, determining data types and formats, classifying the data, and capturing frequency distributions.
-
-- Select `Profile` tab to view the profiling (takes 2-5 mins generate the profiling)
-
-  <img src="./attachments/addtoproject.png" alt="alt text" width="75%"><br>
-
-- In the `Add to project` window, select `I Understand`,
-- Select the project you created in step 3
-- `Next` and then `Add`
-
-  <img src="./attachments/addtoproject1.png" alt="alt text" width="75%"><br>
-
-**Note** The preferred method of enriching a data asset would be to work directly in the project, performing a Metadata Import (MDI) followed by a Metadata Enrichment (MDE), then add to the Catalog. Due to a bug with Profiling data after importing with MDI, we are taking the extra step of profiling in the catalog first. This is a short term workaround until the issue is resolved.
-
-## 10. Create Data Quality SLA (Service Level Agreement) Rules
+<details open id="4-create-data-quality-sla-rules">
+<summary><h2>4. Create Data Quality SLA (Service Level Agreement) Rules</h2></summary>
 
 Data quality SLA rules monitor the quality of critical data elements, such as data that is essential for regulatory reporting, and can initiate remediation tasks when quality issues are identified. Whenever you run metadata enrichment with the "Monitor data quality with SLA rules" option or a data quality rule, asset scores are evaluated against the SLA rules. If violations occur, configured workflows can trigger remediation tasks.
 
 Since this step has already been set up for you in the shared environment, you can skip the creation process but you have to edit already created SLA rules to add your dataset to the existing rules.
 
-### 10.1 Review and Edit the Existing SLA rules
+<h3 id="41-review-and-edit-the-existing-sla-rules">4.1 Review and Edit the Existing SLA rules</h3>
 
 1. Open the **Hamburger menu**, then select `Governance` > `Rules`.
 2. Search for `SLA-customer-id` and `SLA-overall-score`, and preview the SLA rules that have already been created.
@@ -206,7 +84,7 @@ Since this step has already been set up for you in the shared environment, you c
 
 7. Click `update` button
 
-### 10.2 To create a data quality SLA rule (if needed in the future)
+<h3 id="42-to-create-a-data-quality-sla-rule-if-needed-in-the-future">4.2 To create a data quality SLA rule (if needed in the future)</h3>
 
 - From the **Hamburger menu**, select `Governance` > `Rules` and click `Add rule` > `New data quality SLA rule`.
 
@@ -236,21 +114,109 @@ Since this step has already been set up for you in the shared environment, you c
 
 **Note**: Data quality SLA rules are essential for maintaining the integrity of critical data. They ensure that data quality issues are identified and addressed promptly through remediation workflows.
 
-## 11. Enrich Data for Imported Asset
+</details>
 
-This step uses the automated Metadata enrichment tool to enrich the watsonx.data asset that was just imported via the Catalog.
+<details open id="5-data-curation-and-enrichment">
+<summary><h2>5. Data Curation And Enrichment</h2></summary>
 
-Metadata enrichment uses defined data classes and business terms to automatically assign or make suggestions during the metadata enrichment process. This saves organizations a tremendous amount of time and resources by alleviating the manual effort that would have been involved to accomplish the same result.
+As mentioned above, for this lab, the instructor has already defined business vocabulary along with a set of published governance artifacts.
 
-### 11.1 Set Enrichment Options
+Now the data curation process can begin.
 
-- Go to your project by selecting the Hamburger menu, `Projects`, `View all Projects`, `Choose your project`
+Data curation is the process of discovering and adding data assets to a project or a catalog, enriching them by assigning classifications, data classes, and business terms, and analyzing and improving the quality of the data.
 
-  You should see 2 imported assets; your connection to watsonx.data and the imported table
+Curation can be a very labor intensive and time consuming process, and for a lot of organizations, it's mostly done manually where data assets are curated one at a time. Advanced data curation, which is included with the Data Governance component of watsonx.data intelligence, and what will be used in this lab, is primarily an automated process where many of the curation tasks are completed automatically for multiple data assets simultaneously.
 
-  <img src="./attachments/importedtoproject.png" alt="alt text" width="75%"><br>
+Depending on the curation tasks performed, the curation of the data assets can happen in a project, a catalog, or both, before the data is ready for use by data consumers. This lab will perfom the curation process in the project.
 
-- Set Enrichment Options by selecting `Manage`, `Metadata enrichment`, and scroll down to Term assignment methods and select:
+<h3 id="51-import-metadata">5.1 Import Metadata</h3>
+
+**Choose your project**
+
+- From the Hamburger menu, select `Projects`, `View all Projects`.
+- Select the project which has your name as the suffix.
+
+**Creating Metadata Import**
+
+In this step, you will create the Metadata Import to import the Customer data asset from the Watsonx.Data's connection into the project.
+
+- In order to create Metadata Import, click on `New Asset`.
+
+  <img src="./attachments/MDI_New_asset.png" alt="alt text" width="75%"><br>
+
+- Select the <Strong>Prepare data</Strong> goal from the menu on the left.
+
+- Select the <Strong>Import metadata</Strong> for data assets task.
+
+  <img src="./attachments/MDI_Import_MetaData.png" alt="alt text" width="75%"><br>
+
+- Enter the name `customer_table_YourFirstnameLast3LettersLastName_MDI` and click `Next`.
+
+  <img src="./attachments/MDI_Name.png" alt="alt text" width="75%"><br>
+
+- Select the checkbox for the <Strong>Import asset metadata</Strong> and click `Next`.
+
+  <img src="./attachments/MDI_Assest_Metadata.png" alt="alt text" width="75%"><br>
+
+- Click on `Select` for `Connection`.
+
+  <img src="./attachments/MDI_Connection.png" alt="alt text" width="75%"><br>
+
+- Choose `ATT_Enablement_watsonx_data_presto` connection and click `Select`.
+
+  <img src="./attachments/MDI_Select_Connection.png" alt="alt text" width="75%"><br>
+
+- Click on `Select` under `Scope` Section.
+
+  <img src="./attachments/MDI_Scope.png" alt="alt text" width="75%"><br>
+
+- Select the `Select Assets` menu item.
+
+  <img src="./attachments/MDI_Select_Assets.png" alt="alt text" width="75%"><br>
+
+- Click on the arrow next to `postgres_catalog`.
+
+  <img src="./attachments/MDI_postgres_catalog.png" alt="alt text" width="75%"><br>
+
+- Click on the arrow next to `bankdemo`.
+
+  <img src="./attachments/MDI_bank_Demo.png" alt="alt text" width="75%"><br>
+
+- Click on `customers_table`and click `Select`.
+
+  <img src="./attachments/MDI_customers_table.png" alt="alt text" width="75%"><br>
+
+- Click `Next`
+
+  <img src="./attachments/MDI_Source_Next.png" alt="alt text" width="75%"><br>
+
+- Click `Next`
+
+  <img src="./attachments/MDI_Job_next.png" alt="alt text" width="75%"><br>
+
+- Click `Next`
+
+  <img src="./attachments/MDI_Advanced_Next.png" alt="alt text" width="75%"><br>
+
+  Take a minute to review the import before creating it. The Source and scope is importing 1 data asset from the watsonx.data presto connection into this project as the target and the import will be run after creation.
+
+- Click `Create`
+
+  <img src="./attachments/MDI_Review_Create.png" alt="alt text" width="75%"><br>
+
+  The import process should run quickly. In a few seconds, the import process will begin adding the data assets selected in the import to the Imported assets list. To update the results, click on the Refresh button at the top of the page.
+
+  When the import is complete, a message will appear at the top of the page: Metadata import complete. 1 assets were processed successfully. The data asset will appear in the Imported assets list and is now added to the project.
+
+<h3 id="52-enrich-data-for-imported-asset">5.2 Enrich Data for Imported Asset</h3>
+
+This section uses the Data Governance automated Metadata enrichment tool to enrich the data assets that were discovered and imported during the Metadata import processes that was just completed. Metadata imports can be used as input into Metadata enrichment processes to automatically profile the data, analyze and assess data quality, and assign data classifications and business terms by leveraging governance artifacts defined in the business glossary.
+
+This is where all the work that was done up front building out a complete, meaningful, and cross-referenced business glossary, to establish a business ready governance foundation, pays dividends. Metadata enrichment can now leverage the data classes and business terms and automatically assign them and make suggestions during the metadata enrichment process. This saves organizations a tremendous amount of time and resources by alleviating the manual effort that would have been involved to accomplish the same result.
+
+**Set Enrichment Options**
+
+- Set Enrichment Options by clicking `Manage` tab in your project. Then choose `Metadata enrichment`, and scroll down to Term assignment methods and select:
 
   - Machine learning (A machine learning model is used to assign terms.)
   - Data-class-based assignments (Terms are assigned based on the data class assignment for a column)
@@ -259,18 +225,18 @@ Metadata enrichment uses defined data classes and business terms to automaticall
 
   <img src="./attachments/enrichmentoptions.png" alt="alt text" width="75%"><br>
 
-### 11.2 Create Metadata Enrichment Job
+**Create Metadata Enrichment Job**
 
 - Switch back to the `Assets` Tab
 - Select `New Asset`
 - Select `Enrich data assets with metadata`
-- Enter Name: `MDE` and select `Next`
+- Enter Name: `Customer MDE` and select `Next`
 - If prompted to generate API key click `Generate key` to generate.
 
   <img src="./attachments/mda_apikey.png" alt="alt text" width="75%"><br>
 
 - Select `Select data from project`
-- Under Asset types, select `Data asset`, and `Your Table Name` and `Select`
+- Under Asset types, select `Metadata import`, choose the Metadata Import you created in the previous step, select the data asset under it by clicking the checkbox and `Select`
 
   <img src="./attachments/selectdataasset.png" alt="alt text" width="75%"><br>
 
@@ -308,7 +274,7 @@ The Data Scope will be analyzing one data asset imported from watsonx.data with 
 The enrichment process will take approximately 2-3 minutes to complete.
 The status will change from `Not analyzed` to `In progress` to `Finished`.
 
-### 11.3 Review Enrichment Results
+**Review Enrichment Results**
 
 Based on the enrichment scope and objectives, the Metadata enrichment tool automatically profiled the data, analyzed and assessed data quality, assigned and suggested business terms, and assigned data classes to all columns for the data assets included in the metadata enrichment job.
 
@@ -402,7 +368,7 @@ This indicates that the **data steward** has verified and approved the informati
 
 When you are happy that your data is now properly identified and ready to be governed, you can add the enriched version back to the catalog
 
-### 11.4 Add Enriched data back to the Catalog
+**Add Enriched data back to the Catalog**
 
 - Navigate back to the asset view by clicking on the Asset tab
 
@@ -412,14 +378,17 @@ When you are happy that your data is now properly identified and ready to be gov
 
 <img src="./attachments/publish.png" alt="alt text" width="75%"><br>
 
-- Select the `Bootcamp Catalog` and select `Next`
+- Select the `ATT_CDO_Control_Plane_Enablement_Catalog` and select `Next`
 
 <img src="./attachments/publish2.png" alt="alt text" width="75%"><br>
 
 - On Review Assets Page, select `Publish`
 - This will take a few minutes and when finished you will see a message `Publish completed 1 asset has been published to Bootcamp Catalog`
 
-## 12. Verify Data Quality SLA compliance information
+</details>
+
+<details id="6-verify-data-quality-sla-compliance-information">
+<summary><h2>6. Verify Data Quality SLA compliance information</h2></summary>
 
 Earlier in this lab, we reviewed how to create **SLA rules** to monitor data quality. Now, let's verify the **SLA compliance information** for our enriched dataset.
 
@@ -450,7 +419,10 @@ After
 
 <img src="./attachments/after2.png" alt="alt text" width="75%"><br>
 
-## 13. Create Data Protection Rule in Cloud Pak for Data
+</details>
+
+<details id="7-create-data-protection-rule-in-cloud-pak-for-data">
+<summary><h2>7. Create Data Protection Rule in Cloud Pak for Data</h2></summary>
 
 Now that Data has been curated, it's time to apply data protection rules. For our use case, we want to protect Social Security numbers and email addresses from being viewable in the catalog.
 
@@ -461,13 +433,16 @@ Because we are working in a shared watsonx.data Intelligence environment, this s
 
   1. Preview the Protect US SSN and Email Rules
 
-     For the lab, we’ve chosen to mask the SSN with the character X, and for the Email we will substitute data but could have also chosen to obfuscate or deny access instead.
+     For the lab, we've chosen to mask the SSN with the character X, and for the Email we will substitute data but could have also chosen to obfuscate or deny access instead.
 
      <img src="./attachments/protectssn.png" alt="alt text" width="75%"><br>
 
      <img src="./attachments/protect-email.png" alt="alt text" width="75%"><br>
 
-## 14. Add Service Integration in watsonx.data to watsonx.data Intelligence
+</details>
+
+<details id="8-add-service-integration-in-watsonxdata-to-watsonxdata-intelligence">
+<summary><h2>8. Add Service Integration in watsonx.data to watsonx.data Intelligence</h2></summary>
 
 - Go to `watsonx.data` service instance
 - From the Hamburger menu, select `Access Control`
@@ -491,11 +466,14 @@ Because we are working in a shared watsonx.data Intelligence environment, this s
 
   <img src="./attachments/integratecomplete.png" alt="alt text" width="75%"><br>
 
-## 15. Add restricted user access to watsonx.data
+</details>
+
+<details open id="9-add-restricted-user-access-to-watsonxdata">
+<summary><h2>9. Add restricted user access to watsonx.data</h2></summary>
 
 Data protection rules are enforced for users who are not administrators of the data resource. For the lab, our business users will belong to the `Data_Scientist` user group.
 
-### 15.1 Add access to Infrastructure Components
+<h3 id="91-add-access-to-infrastructure-components">9.1 Add access to Infrastructure Components</h3>
 
 - From the Hamburger menu, select `Access control` from `watsonx.data`
 - In `Infrastructure` Tab, Click `Add Access +`
@@ -517,7 +495,7 @@ Data protection rules are enforced for users who are not administrators of the d
 
   <img src="./attachments/assignroles.png" alt="alt text" width="75%"><br>
 
-### 15.2 Add Policy to iceberg data
+<h3 id="92-add-policy-to-iceberg-data">9.2 Add Policy to iceberg data</h3>
 
 - Switch to the `Policies` Tab
 
@@ -534,16 +512,18 @@ Data protection rules are enforced for users who are not administrators of the d
 - Select `Data_Scientist` Group and select Add
 - Click `Add`, `Add`, `Review` and `Create`
 
-## 16 Verify Data Protection Rule is being enforced (Demonstration)
+</details>
+
+<details id="10-verify-data-protection-rule-is-being-enforced-demonstration">
+<summary><h2>10. Verify Data Protection Rule is being enforced (Demonstration)</h2></summary>
 
 - To demonstrate the data protection rule is being enforced, we must login to the environment with a user who is not an owner of the data.
-- For the bootcamp, this is any user who has been added to the
-  Data_Scientist group.
-- :teacher to Demonstrate:
+- For the enablement, this is any user who has been added to the Data_Scientist group.
+- :Instructor to Demonstrate:
 
   - Login as restricted user
   - Go to `watsonx.data Intelligence` Instance
-  - Open the `Bootcamp Catalog`
+  - Open the Catalog
   - Open Data Asset from watsonx.data
   - Click `Asset` tab
 
@@ -552,3 +532,5 @@ Data protection rules are enforced for users who are not administrators of the d
 In this lab you have seen how watsonx.data allows data stewards to enrich and catalogue data just like any other data in their enterprise.
 
 Finished!
+
+</details>
