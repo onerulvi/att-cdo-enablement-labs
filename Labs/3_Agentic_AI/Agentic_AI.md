@@ -103,7 +103,7 @@ Watsonx Orchestrate is IBM's platform for creating, managing, and running AI-dri
 <details open id="lab-1-create-your-first-agent">
 <summary><h2>Step-1: Create Your First Agent</h2></summary>
 
-Navigate to the Watsonx Orchestrate home page. In the left-hand navigation menu, click on build to expand the menu and click on "Agent Builder". Agents depend on tools to perform their functions. When you define an agent, you specify which tools it can use in the tools section. The system needs the tools to exist before it can validate and import an agent that references them. 
+Navigate to the Watsonx Orchestrate home page. In the left-hand navigation menu, click on build to expand the menu and click on "**Agent Builder**". Agents depend on tools to perform their functions. When you define an agent, you specify which tools it can use in the tools section. The system needs the tools to exist before it can validate and import an agent that references them. 
 
 ![alt text](attachments/wxo_homepage.png)
 
