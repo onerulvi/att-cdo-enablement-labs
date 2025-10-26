@@ -109,7 +109,7 @@ Navigate to the Watsonx Orchestrate home page. In the left-hand navigation menu,
 
 <details open id="the-network-status-agent">
 <summary><h3>The Network Status Agent</h3></summary>
-The Network Status Agent answers questions about network health (regions, sites, nodes, active incidents).
+The **Network Status Agent** answers questions about network health (regions, sites, nodes, active incidents).
 In this lab, it does not use a knowledge base. Instead, it calls a `get_data` tool defined via an OpenAPI JSON so responses are fetched live from the source.
 
 **Step 1.** Import the OpenAPI tool (`get_data`)
