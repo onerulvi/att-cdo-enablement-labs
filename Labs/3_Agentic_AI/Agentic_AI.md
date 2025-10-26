@@ -108,11 +108,12 @@ Navigate to the Watsonx Orchestrate home page. In the left-hand navigation menu,
 ![alt text](attachments/wxo_homepage.png)
 
 <details open id="the-network-status-agent">
-<summary><h3>The Network Status Agent</h3></summary>
-The **Network Status Agent** answers questions about network health (regions, sites, nodes, active incidents).
+<summary><h3>Agent #1: The Network Status Agent</h3></summary>
+
+The Network Status Agent answers questions about network health (regions, sites, nodes, active incidents).
 In this lab, it does not use a knowledge base. Instead, it calls a `get_data` tool defined via an OpenAPI JSON so responses are fetched live from the source.
 
-**Step 1.** Import the OpenAPI tool (`get_data`)
+**Step 1.** **Create the  `get_data`tool by importing  OpenAPI spec files (.json)**
 
 - We will first import an external REST API as a tool. To do this we will import an OpenAPI Spec into WXO
   1. Navigate to the Agent Builder tab.
@@ -123,7 +124,7 @@ In this lab, it does not use a knowledge base. Instead, it calls a `get_data` to
   
      
   
-  2. Create tool → Add from file or MCP server"→ Upload the OpenAPI (assets/tools/get_data_openapi.json) → Select the "Get Data" operation → Done\*\*
+  2. Create tool → Add from file or MCP server"→ Upload the OpenAPI (assets/tools/get_data_openapi.json) → Select the "Get Data" operation → Done
   
      ![alt text](attachments/wxo_tool1.png)
      ![alt text](attachments/wxo_tool2_1.png)
@@ -136,7 +137,7 @@ In this lab, it does not use a knowledge base. Instead, it calls a `get_data` to
   4. If you're using a shared environment change the name of your tool not to overwrite other users work.
      ![alt text](attachments/image-7.png)
 
-**Step 2.** Create Network Status Agent
+**Step 2.** **Create Network Status Agent**
 
 - Now we will create our first agent. We will add the tool above into it's toolset and test the results.
 
@@ -183,23 +184,26 @@ In this lab, it does not use a knowledge base. Instead, it calls a `get_data` to
 - `Can you provide me a table of all the cell towers in the system with their relevant status?`
 - `Why is site S004 down?`
 
-**Congratulations you've just completed building your frist Agent!** The **Network Status Agent** is ready. It will now route natural-language queries to the `get_data` tool to return live network status.
+**Congratulations you've just completed building your frist Agent!** 
+
+The **Network Status Agent** is ready. It will now route natural-language queries to the `get_data` tool to return live network status.
 
 </details>
 
 <details open id="the-communication-agent">
-<summary><h3>The Communication Agent</h3></summary>
+<summary><h3>Agent #2: The Communication Agent</h3></summary>
+
 
 The **Communications Agent** is responsible for drafting clear and professional notification emails about network incidents or operational updates.
 
-#### 1) Import the Outlook Email Tool
+#### Step 1: Import the Outlook Email Tool
 
-This tool provides the functionality for the agent to send emails via the Outlook Mail Server API.
+This tool provides the functionality for the agent to draft and (if configured) send emails via the Outlook Mail Server API.
 
-- We will first import the Send Outlook Email tool. To do this we will import an OpenAPI Spec into WXO
+- We will first import the **Send Outlook Email tool**. To do this we will import an OpenAPI Spec into WXO
   1.  Navigate to the Agent Builder tab.
       ![alt text](attachments/wxo_homepage.png)
-  2.  Create tool → Add from file or MCP server"→ Upload the OpenAPI (wxo_assets/tools/outlook_email_openapi.json) → Select the "Send Email Outlook" operation → Done\*\*
+  2.  Create tool → Add from file or MCP server"→ Upload the OpenAPI (wxo_assets/tools/outlook_email_openapi.json) → Select the "Send Email Outlook" operation → Done
       ![alt text](attachments/wxo_tool1.png)
       ![alt text](attachments/wxo_tool2_1.png)
       ![alt text](attachments/wxo_tool2_2.png)
@@ -209,7 +213,7 @@ This tool provides the functionality for the agent to send emails via the Outloo
       ![alt text](attachments/image-5.png)
       ![alt text](attachments/image-6.png)
 
-#### 2) Create the Communications Agent
+#### Step 2: Create the Communications Agent
 
 - Now we will create the Communications Agent.
 
@@ -222,7 +226,7 @@ This tool provides the functionality for the agent to send emails via the Outloo
   4. Add the following description for your agent.
 
      ```
-      The Communications Agent specializes in drafting internal or external notification emails and messages regarding network incidents or operational updates.
+     The Communications Agent specializes in drafting internal or external notification emails and messages regarding network incidents or operational updates.
      ```
 
   5. Click Create
@@ -230,11 +234,9 @@ This tool provides the functionality for the agent to send emails via the Outloo
      ![alt text](attachments/wxo_agent1.png)
      ![alt text](attachments/communication_agent_creation_page.png)
 
-  6. 
+     
 
-- Lastly add instructions to the Communicaitons Agent
-
-  1.  Scroll down to the **Behavior** section and add the following instructions.
+- Lastly add following instructions to the **Behavior** section and add the following instructions.
 
   ```
   - Your response **must strictly follow this format** when asked to draft an email:
