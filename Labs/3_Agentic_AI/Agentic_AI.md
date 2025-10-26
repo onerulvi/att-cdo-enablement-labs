@@ -234,9 +234,20 @@ This tool provides the functionality for the agent to draft and (if configured) 
      ![alt text](attachments/wxo_agent1.png)
      ![alt text](attachments/communication_agent_creation_page.png)
 
-     
+  
 
-- Lastly add following instructions to the **Behavior** section and add the following instructions.
+  6. Assign the `Send Email Outlook` Tool to the Communications Agent
+
+     - Scroll down to the **Toolset** section and click on "Add Tool". 
+
+     - Since we have already added the `Send Email Outlook` tool to our instance, we can select and add it to the agent.
+
+       
+
+     - ![alt text](attachments/wxo_agent4.png)
+        ![alt text](attachments/wxo_agent5.png)
+
+  7. Lastly add following instructions to the **Behavior** section and add the following instructions.
 
   ```
   - Your response **must strictly follow this format** when asked to draft an email:
@@ -254,15 +265,15 @@ This tool provides the functionality for the agent to draft and (if configured) 
   - *Strictly follow this**: After the user provides recipient email address: Display it back to the user and ask: "Please confirm if this is correct: [email]".
   - Do not ask unrelated follow-up questions.
   - Respond only with the information requested.
-
+  
   Tool Access:
   Use the `Send Email Outlook` to send the email to the email provided
 
 - Ask the agent: `Draft an email invite about an Agentic AI bootcamp in New York around October.`
+
 - The agent should generate a professional email body.
+
 - If the Outlook tool is configured, you can also instruct it to send the email directly by asking `Send the above email to {email_id}`.
-
-
 
 
 
