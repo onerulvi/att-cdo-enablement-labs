@@ -109,13 +109,16 @@ Navigate to the Watsonx Orchestrate home page. In the left-hand navigation menu,
 
 <details open id="the-network-status-agent">
 <summary><h3>The Network Status Agent</h3></summary>
-The **Network Status Agent** answers questions about network health (regions, sites, nodes, active incidents).
-In this lab, it **does not use a knowledge base**. Instead, it calls a `get_data` tool defined via an **OpenAPI JSON** so responses are fetched live from the source.
+The Network Status Agent answers questions about network health (regions, sites, nodes, active incidents).
+In this lab, it does not use a knowledge base. Instead, it calls a `get_data` tool defined via an OpenAPI JSON so responses are fetched live from the source.
 
 **Step 1.** Import the OpenAPI tool (`get_data`)
 
 - We will first import an external REST API as a tool. To do this we will import an OpenAPI Spec into WXO
   1. Navigate to the Agent Builder tab.
+  
+     
+  
      ![alt text](attachments/wxo_homepage.png)
   
      
