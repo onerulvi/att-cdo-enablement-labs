@@ -28,7 +28,7 @@ The objective of this lab is to demonstrate how to reduce the operational cost o
 
 ## 2. Solution Approach:
 
-In this lab the historic data will be off loaded from the Netezza Data Warehouse (DW) database, `INVESTMENTS` and schema `equity_transactions` into watsonx.data iceberg_data catalog. The historic data is identified based on the transacations that took place prior to 2024. By reducing the volume of data in the Netezza DW the expensive block storage cost is reduced by using the Cloud Object Storage.
+In this lab the historic data will be off loaded from the Netezza Data Warehouse (DW) database, `INVESTMENTS` and schema `equity_transactions` into watsonx.data iceberg_catalog catalog. The historic data is identified based on the transacations that took place prior to 2024. By reducing the volume of data in the Netezza DW the expensive block storage cost is reduced by using the Cloud Object Storage.
 
 The current year data is left in the data warehouse to minimize disruption to the existing applications. We will be using the presto query engine to run federated queries that allows aggregating the data that exists in Netezza and watsonx.data.
 
@@ -58,7 +58,7 @@ graph TD
 ```
 
 - **Step 1 - Netezza connection**: Check Netezza Connection;
-- **Step 2 - New schema and tables**: Create new schema and tables in the iceberg_data catalog for data offload;
+- **Step 2 - New schema and tables**: Create new schema and tables in the iceberg_catalog catalog for data offload;
 - **Step 3 - Data insertion**: insert data into newly created tables from Netezza INVESTMENTS schema, for historic transactions prior to 2025;
 - **Step 4 - Review data**: check data samples and number of records in the newly created tables;
 - **Step 5 - Combined query**: Execute querys that combine the data from the iceberg tables in watsonx.data and the current year schema, `equity_transactions_ly` in Netezza.
@@ -71,7 +71,7 @@ graph TD
 - From the Hamburger menu in the top left, select `Infrastructure Manager` and verify check that Netezza is added as a data source
 - ![alt text](./attachments/verify-netezza.jpg)
 - From the Hamburger menu in the top left, select `Data manager`
-- Browse the nz_catalog and verify the Netezza schemas `equity_transactions` and `equity_transactions_ly` are available.
+- Browse the netezza and verify the Netezza schemas `equity_transactions` and `equity_transactions_ly` are available.
 
 ![](./attachments/Pasted%20image%2020250409145504.png)
 
@@ -86,7 +86,7 @@ graph TD
    - For the bootcamp, the convention for <SCHEMA*DWH_OFFLOAD> is `netezza_offload*<YourName_First3LettersOfSurname>`
 
 ```sql
-CREATE SCHEMA IF NOT EXISTS iceberg_data.<SCHEMA_DWH_OFFLOAD> WITH (location = 's3a://<WXD_BUCKET>/<SCHEMA_DWH_OFFLOAD>');
+CREATE SCHEMA IF NOT EXISTS iceberg_catalog.<SCHEMA_DWH_OFFLOAD> WITH (location = 's3a://<WXD_BUCKET>/<SCHEMA_DWH_OFFLOAD>');
 ```
 
 3. Check that query execution was successful:
@@ -99,7 +99,7 @@ CREATE SCHEMA IF NOT EXISTS iceberg_data.<SCHEMA_DWH_OFFLOAD> WITH (location = '
 ```sql
 
 -- dim_account
-CREATE TABLE iceberg_data.<SCHEMA_DWH_OFFLOAD>.dim_account (
+CREATE TABLE iceberg_catalog.<SCHEMA_DWH_OFFLOAD>.dim_account (
     account_id INTEGER,
     account_type VARCHAR,
     status VARCHAR,
@@ -114,7 +114,7 @@ WITH (
 );
 
 -- dim_stock
-CREATE TABLE iceberg_data.<SCHEMA_DWH_OFFLOAD>.dim_stock (
+CREATE TABLE iceberg_catalog.<SCHEMA_DWH_OFFLOAD>.dim_stock (
     stock_id INTEGER,
     stock_symbol VARCHAR,
     stock_name VARCHAR,
@@ -127,7 +127,7 @@ WITH (
 );
 
 -- dim_exchange
-CREATE TABLE iceberg_data.<SCHEMA_DWH_OFFLOAD>.dim_exchange (
+CREATE TABLE iceberg_catalog.<SCHEMA_DWH_OFFLOAD>.dim_exchange (
     exchange_id INTEGER,
     exchange_name VARCHAR,
     country VARCHAR,
@@ -139,7 +139,7 @@ WITH (
 );
 
 -- dim_date
-CREATE TABLE iceberg_data.<SCHEMA_DWH_OFFLOAD>.dim_date (
+CREATE TABLE iceberg_catalog.<SCHEMA_DWH_OFFLOAD>.dim_date (
     date_id INTEGER,
     transaction_date DATE,
     year INTEGER,
@@ -154,7 +154,7 @@ WITH (
 );
 
 -- fact_transactions
-CREATE TABLE iceberg_data.<SCHEMA_DWH_OFFLOAD>.fact_transactions (
+CREATE TABLE iceberg_catalog.<SCHEMA_DWH_OFFLOAD>.fact_transactions (
     transaction_id INTEGER,
     account_id INTEGER,
     stock_id INTEGER,
@@ -170,7 +170,7 @@ WITH (
 );
 ```
 
-5. After creating tables, refresh `iceberg_data` catalog and check that schema and tables exist in the schema for data offload
+5. After creating tables, refresh `iceberg_catalog` catalog and check that schema and tables exist in the schema for data offload
 
 <img src="./attachments/image-6.png" alt="alt text" width="50%"><br>
 ![created-tables-iceberg](attachments/2025-06-27-12-25-11-pasted-vscode.png)
@@ -183,34 +183,34 @@ WITH (
 
 ```sql
 -- Insert into dim_date
-INSERT INTO iceberg_data.<SCHEMA_DWH_OFFLOAD>.dim_date
+INSERT INTO iceberg_catalog.<SCHEMA_DWH_OFFLOAD>.dim_date
 SELECT *
-FROM nz_catalog.equity_transactions.dim_date dt
+FROM netezza.equity_transactions.dim_date dt
 WHERE dt.year < year(CURRENT_DATE);
 
 -- Insert into fact_transactions (filtered by dim_date)
-INSERT INTO iceberg_data.<SCHEMA_DWH_OFFLOAD>.fact_transactions
+INSERT INTO iceberg_catalog.<SCHEMA_DWH_OFFLOAD>.fact_transactions
 SELECT ft.*
-FROM nz_catalog.equity_transactions.fact_transactions ft
-JOIN iceberg_data.<SCHEMA_DWH_OFFLOAD>.dim_date d ON ft.date_id = d.date_id;
+FROM netezza.equity_transactions.fact_transactions ft
+JOIN iceberg_catalog.<SCHEMA_DWH_OFFLOAD>.dim_date d ON ft.date_id = d.date_id;
 
 -- Insert into dim_account (using filtered fact_transactions)
-INSERT INTO iceberg_data.<SCHEMA_DWH_OFFLOAD>.dim_account
+INSERT INTO iceberg_catalog.<SCHEMA_DWH_OFFLOAD>.dim_account
 SELECT DISTINCT a.*
-FROM nz_catalog.equity_transactions.dim_account a
-JOIN iceberg_data.<SCHEMA_DWH_OFFLOAD>.fact_transactions ft ON a.account_id = ft.account_id;
+FROM netezza.equity_transactions.dim_account a
+JOIN iceberg_catalog.<SCHEMA_DWH_OFFLOAD>.fact_transactions ft ON a.account_id = ft.account_id;
 
 -- Insert into dim_stock (using filtered fact_transactions)
-INSERT INTO iceberg_data.<SCHEMA_DWH_OFFLOAD>.dim_stock
+INSERT INTO iceberg_catalog.<SCHEMA_DWH_OFFLOAD>.dim_stock
 SELECT DISTINCT s.*
-FROM nz_catalog.equity_transactions.dim_stock s
-JOIN iceberg_data.<SCHEMA_DWH_OFFLOAD>.fact_transactions ft ON s.stock_id = ft.stock_id;
+FROM netezza.equity_transactions.dim_stock s
+JOIN iceberg_catalog.<SCHEMA_DWH_OFFLOAD>.fact_transactions ft ON s.stock_id = ft.stock_id;
 
 -- Insert into dim_exchange (using filtered fact_transactions)
-INSERT INTO iceberg_data.<SCHEMA_DWH_OFFLOAD>.dim_exchange
+INSERT INTO iceberg_catalog.<SCHEMA_DWH_OFFLOAD>.dim_exchange
 SELECT DISTINCT e.*
-FROM nz_catalog.equity_transactions.dim_exchange e
-JOIN iceberg_data.<SCHEMA_DWH_OFFLOAD>.fact_transactions ft ON e.exchange_id = ft.exchange_id;
+FROM netezza.equity_transactions.dim_exchange e
+JOIN iceberg_catalog.<SCHEMA_DWH_OFFLOAD>.fact_transactions ft ON e.exchange_id = ft.exchange_id;
 ```
 
 ### 4.4 - Review the Data in watsonx.data
@@ -225,27 +225,27 @@ JOIN iceberg_data.<SCHEMA_DWH_OFFLOAD>.fact_transactions ft ON e.exchange_id = f
 
 ```sql
 SELECT 'transactions_count', COUNT(*) AS count
-FROM  "iceberg_data"."<SCHEMA_DWH_OFFLOAD>"."fact_transactions" as ft
+FROM  "iceberg_catalog"."<SCHEMA_DWH_OFFLOAD>"."fact_transactions" as ft
 
 UNION
 
 SELECT 'dates_count', COUNT(*) AS count
-FROM "iceberg_data"."<SCHEMA_DWH_OFFLOAD>"."dim_date" as dd
+FROM "iceberg_catalog"."<SCHEMA_DWH_OFFLOAD>"."dim_date" as dd
 
 UNION
 
 SELECT 'stock_count', COUNT(*) AS count
-FROM "iceberg_data"."<SCHEMA_DWH_OFFLOAD>"."dim_stock" as ds
+FROM "iceberg_catalog"."<SCHEMA_DWH_OFFLOAD>"."dim_stock" as ds
 
 UNION
 
 SELECT 'exchanges_count', COUNT(*) AS count
-FROM "iceberg_data"."<SCHEMA_DWH_OFFLOAD>"."dim_exchange" as de
+FROM "iceberg_catalog"."<SCHEMA_DWH_OFFLOAD>"."dim_exchange" as de
 
 UNION
 
 SELECT 'accounts_count', COUNT(*) AS count
-FROM "iceberg_data"."<SCHEMA_DWH_OFFLOAD>"."dim_account" as da;
+FROM "iceberg_catalog"."<SCHEMA_DWH_OFFLOAD>"."dim_account" as da;
 ```
 
 Expected output:
@@ -259,7 +259,7 @@ Now the data has be prepared and ready to be consumed by the business users and 
 
 **Tip :**
 
-1. Use the `iceberg_data.<SCHEMA_DWH_OFFLOAD>` schema for the historic data and `nz_catalog.equity_transactions_ly` for the current data.
+1. Use the `iceberg_catalog.<SCHEMA_DWH_OFFLOAD>` schema for the historic data and `netezza.equity_transactions_ly` for the current data.
 2. Make sure you are working from the `Query workspace`.
    ![alt text](./attachments/image-8.png)
 
