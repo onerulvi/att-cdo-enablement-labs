@@ -101,7 +101,8 @@ Watsonx Orchestrate is IBM's platform for creating, managing, and running AI-dri
 </details>
 
 <details open id="lab-1-create-your-first-agent">
-<summary><h2>Step-1: Create Your First Agent</h2></summary>
+<summary><h2>Step-1: Create Agents and Tools</h2></summary>
+
 
 Navigate to the Watsonx Orchestrate home page. In the left-hand navigation menu, click on build to expand the menu and click on "**Agent Builder**". Agents depend on tools to perform their functions. When you define an agent, you specify which tools it can use in the tools section. The system needs the tools to exist before it can validate and import an agent that references them. 
 
@@ -109,7 +110,6 @@ Navigate to the Watsonx Orchestrate home page. In the left-hand navigation menu,
 
 <details open id="the-network-status-agent">
 <summary><h3>Agent #1: The Network Status Agent</h3></summary>
-
 The Network Status Agent answers questions about network health (regions, sites, nodes, active incidents).
 In this lab, it does not use a knowledge base. Instead, it calls a `get_data` tool defined via an OpenAPI JSON so responses are fetched live from the source.
 
@@ -275,7 +275,7 @@ This tool provides the functionality for the agent to draft and (if configured) 
 
 - If the Outlook tool is configured, you can also instruct it to send the email directly by asking `Send the above email to {email_id}`.
 
-
+</details>
 
 **[Add steps to create 2 agents and add tools already there]**
 
