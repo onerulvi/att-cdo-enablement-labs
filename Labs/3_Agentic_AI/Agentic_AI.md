@@ -103,33 +103,35 @@ Watsonx Orchestrate is IBM's platform for creating, managing, and running AI-dri
 <details open id="lab-1-create-your-first-agent">
 <summary><h2>Step-1: Create Your First Agent</h2></summary>
 
+Navigate to the Watsonx Orchestrate home page. In the left-hand navigation menu, click on build to expand the menu and click on "Agent Builder". Agents depend on tools to perform their functions. When you define an agent, you specify which tools it can use in the tools section. The system needs the tools to exist before it can validate and import an agent that references them. 
 
-
-<!-- ### Importing agents using the watsonx Orchestrate Console
-**Accessing the console**: Navigate to the Watsonx Orchestrate home page. In the left-hand navigation menu, click on build to expand the menu and click on "Agent Builder".
 ![alt text](attachments/wxo_homepage.png)
-
-Agents depend on tools to perform their functions. When you define an agent, you specify which tools it can use in the tools section. The system needs the tools to exist before it can validate and import an agent that references them. -->
 
 <details open id="the-network-status-agent">
 <summary><h3>The Network Status Agent</h3></summary>
-<!-- The **Network Status Agent** answers questions about network health (regions, sites, nodes, active incidents).
-In this lab, it **does not use a knowledge base**. Instead, it calls a `get_data` tool defined via an **OpenAPI JSON** so responses are fetched live from the source. -->
+The **Network Status Agent** answers questions about network health (regions, sites, nodes, active incidents).
+In this lab, it **does not use a knowledge base**. Instead, it calls a `get_data` tool defined via an **OpenAPI JSON** so responses are fetched live from the source.
 
 **Step 1.** Import the OpenAPI tool (`get_data`)
 
 - We will first import an external REST API as a tool. To do this we will import an OpenAPI Spec into WXO
-  1.  Navigate to the Agent Builder tab.
-      ![alt text](attachments/wxo_homepage.png)
-  2.  Create tool → Add from file or MCP server"→ Upload the OpenAPI (assets/tools/get_data_openapi.json) → Select the "Get Data" operation → Done\*\*
-      ![alt text](attachments/wxo_tool1.png)
-      ![alt text](attachments/wxo_tool2_1.png)
-      ![alt text](attachments/wxo_tool2_2.png)
-      ![alt text](attachments/wxo_tool3.png)
-      ![alt text](attachments/wxo_tool4.png)
-  3.  Verify you see an entry for `get_data` tool under the tools homepage.
-  4.  If you're using a shared environment change the name of your tool not to overwrite other users work.
-      ![alt text](attachments/image-7.png)
+  1. Navigate to the Agent Builder tab.
+     ![alt text](attachments/wxo_homepage.png)
+  
+     
+  
+  2. Create tool → Add from file or MCP server"→ Upload the OpenAPI (assets/tools/get_data_openapi.json) → Select the "Get Data" operation → Done\*\*
+  
+     ![alt text](attachments/wxo_tool1.png)
+     ![alt text](attachments/wxo_tool2_1.png)
+     ![alt text](attachments/wxo_tool2_2.png)
+     ![alt text](attachments/wxo_tool3.png)
+     ![alt text](attachments/wxo_tool4.png)
+  
+  3. Verify you see an entry for `get_data` tool under the tools homepage.
+  
+  4. If you're using a shared environment change the name of your tool not to overwrite other users work.
+     ![alt text](attachments/image-7.png)
 
 **Step 2.** Create Network Status Agent
 
