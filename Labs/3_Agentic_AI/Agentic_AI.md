@@ -54,21 +54,7 @@ A large telecommunications provider faces frequent challenges in its Network Ope
 
 ---
 
-## Storyline Walkthrough  
-
-The **Supervisor** receives an alert of a service disruption at a regional site. They engage the **Supervisor Agent** via the Orchestrate conversational interface.  
-
-1. **Check server status** → "Check the server status of `att.com`."  
-2. **Assess incidents** → "Are there any incidents in our network?"  
-3. **Retrieve site data** → "Get me the network status for site `S002`."  
-4. **Diagnose root cause** → "What is the root cause of this error and what are the steps to resolve it?".  
-5. **Communicate resolution** → "Draft an email for the Los Angeles AT&T Network team with everything we discussed and let them know the issue is resolved."  
-
-This demonstrates how multiple agents coordinate seamlessly under the **Supervisor Agent's orchestration**, closing the loop from detection to communication.  
-
----
-
-## Step-by-step Hands-on Instructions  
+## Step-by-step Instructions  
 
 Option 1: watsonx Orchestrate UI Only
 
@@ -88,13 +74,6 @@ Option 2: using ADK
 
 <details open id="introduction">
 <summary><h2>Introduction</h2></summary>
-
-This use case describes a scenario where a Network Supervisor leverages an AI assistant through a natural language chat interface to investigate, diagnose, and resolve service disruptions. The assistant acts as a central routing point that selects the appropriate specialized agent to satisfy each request, ensuring rapid coordination across tools and knowledge sources.
-
-Agents can be configured in the system to address specific needs of the supervisor. Each agent is powered by a Large Language Model (LLM) with function-calling capabilities, enabling it to invoke the right tools or knowledge bases based on the task description.
-
-In our scenario, we will build agents for **Network Status**, **Server Status**, **Incident Diagnosis**, and **Communications**, all coordinated by a **Supervisor Agent**. This setup allows the Supervisor to ask questions in plain language, such as checking server health, investigating site-specific outages, diagnosing root causes, and drafting updates for field teams.
-
 In this lab, we will configure a set of 4 agents and 1 supervisor agent inside **Watsonx Orchestrate**. Each agent has a distinct responisbility and a unique toolset to comeplete a specific role in the incident response agentic system. The **Supervisor Agent** coordinates work among the agents by orchestrating requests to the appropriate agent. Below you will find an outline of all the agents we will build during this lab.
 
 
