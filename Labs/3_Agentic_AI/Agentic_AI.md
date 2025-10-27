@@ -281,73 +281,174 @@ This tool provides the functionality for the agent to draft and (if configured) 
 
 **{END OF 1st PART}**
 
+<details open id="the-incident-diagnosis-agent">
+<summary><h3>Agent #3: The Incident Diagnosis Agent</h3></summary>
+The Incident Diagnosis Agent  responsible for analyzing incident logs, tagging them with the most likely root cause, and suggesting a resolution plan. It relies on a Python tool to parse logs and a knowledge base of resolution guides for remediation steps.
 
+**Step 1.** **Import Incident Diagnosis Tool**
 
+This tool provides log analysis capabilities so the agent can extract error patterns and classify incidents.
 
+**Important Note:** The instructions to import this tool requires ADK and Pthon file provided in repo (diagnose_incident_tool.py) and IDE like VS Code to edit the python file. For this "UI Only" instructions, we will skip those steps and use the already imported tool withing our wxo instance. Fot detailed instructions see the instructions version with ADK and Python. 
 
+We will now move to creating the agent and then add the tool that is already imported to the agent.
 
+**Step 2.** **Create Incident Diagnosis Agent**
 
-  6. Save. This may take 1 min or two.
-- Configure the Knowledge Base
-  1. Scroll down to the Knowledge section and click `Edit knowledge settings`
-     ![alt text](attachments/kb4.png)
-  2. Modify the retrieval criteria and save
-     ![alt text](attachments/kb5.png)
+1. Navigate to the Agent Builder tab.
 
+2. To create a new agent click on **All agents → Create Agent → Enter name and description for your agent → Create**
 
+   ![alt text](attachments/wxo_agent1.png)
 
-#### 4) Quick sanity checks
+   3. Give your agent a name. `incident_diagnosis_agent_(with initials)`
+
+   4. Add the following description for your agent.
+
+   ```
+   The Incident Diagnosis Agent analyzes incident logs and tags them with the most likely root cause and can also provide a resolution plan based on the knowledge source. 
+   ```
+
+   5. Click Create
+
+   ![alt text](attachments/wxo_agent13.png)
+
+   **Step 3.** **Adding the Tool to Incident Diagnosis Agent**
+
+Now that we've created our Agent, we can add the incident diagnosis tool. 
+1. Scroll down to the **Toolset** section and click on **Add Tool**.
+
+2. Since it is already imported for us, locate the `incident_diagnosis_OC` tool using "**Add from local instance**" option and add it to the agent.
+   ![alt text](attachments/wxo_agent14.png)
+
+   You can use search bar to find the tool easily, start trying "incident" and locate the "diagnosis_incident_log_OC" tool. 
+
+   Check the box and click to Add to Agent button.
+
+   ![](attachments/wxo_agent15.png)
+
+Now, you should be able to see the newly added "diagnosis_incident_log_OC" tool to your Agent as shown below. 
+
+![alt text](attachments/wxo_agent16.png)
+
+- Lastly scroll down to the **Behavior** section and **add the following instructions.** 
+
+  ```
+    Your final response **must strictly follow this format**:
+    error_type: "insert error type exactly as returned by the tool (Backhaul Failure, Power Outage, Configuration Error)"
+    resolution_plan: "insert resolution plan based on knowledge base content"
+  ```
+
+![alt text](attachments/wxo_agent17.png)
+
+**Step 4. Import the Incident Resolution Knowledge Base**
+
+Knowledge Bases refer to Vector Stores that allow your Agents to query unstructured data such as documents. You can use the WXO interal Knowledge Base or connect your own vector store externally. 
+- The knowledge base in our case provides mappings from error types to recommended resolution plans. The agent consults it after the tool has identified the root cause.
+
+- Create a Knowledge Base
+  1. Scroll down to the Knowledge section and click `Choose Knowledge`
+      ![alt text](attachments/kb2.png)
+  
+  2. Select **Upload Files** (last option at the end) and upload `/wxo_assets/knowledge_bases/backhaul_failure_guide.pdf`, `/wxo_assets/knowledge_bases/config_error_guide.pdf`, and `/wxo_assets/knowledge_bases/power_outage_guide.pdf`
+      ![alt text](attachments/kb3.png)
+  
+      ![alt text](attachments/wxo_agent18.png)
+  
+  3. Add the following as a description:
+  
+     - `Troubleshooting documentation for resolving common network incident root causes.
+     Covers backhaul failures, power outages, and configuration errors.`
+  
+  4. Click Save. **This may take 1 min or two.**
+  
+  5. Configure the Knowledge Base
+  
+  i. Scroll down to the Knowledge section and click `Edit knowledge settings`
+  ![alt text](attachments/kb4.png)
+  
+  ii. Modify the retrieval criteria and save
+  ![alt text](attachments/kb5.png)
+
+**Step 5. Test the Agent**
 
 - Test your agent with the following prompt: `Here is the log: "UPS unit failed at site S002. Generator did not auto-start. Site running on battery only."`
-- The agent should respond with both the **error type** and the **resolution plan**.
-
-#### 5) Common troubleshooting tips
-
-The **Incident Diagnosis Agent** is now ready. It can be invoked directly or through the Supervisor Agent to analyze logs and recommend remediation steps.
+- The agent should respond with both the **error type** and the **resolution plan**.  
 
 </details>
 
 <details open id="the-server-status-agent">
-<summary><h3>The Server Status Agent</h3></summary>
-The **Server Status Agent** checks whether a given server or URL is reachable.  
+<summary><h3>Agent #4: The Server Status Agent</h3></summary>
+The Server Status Agent checks whether a given server or URL is reachable.  
 This is useful for quickly validating if a service endpoint is online when an incident is reported.
-
-#### 1) Import the Server Status Tool
+**Step 1.** **Import Check Server Status Tool**
 
 This tool allows the agent to test HTTP/HTTPS endpoints and return whether they are up or down.
 
-- Run: `orchestrate tools import -k python -f assets/tools/check_server_status_tool.py`
-- Verify: `orchestrate tools list` → you should see `check_server_status`
+**Important Note:** The instructions to import this tool requires ADK and Pthon file provided in repo (diagnose_incident_tool.py) and IDE like VS Code to edit the python file. For this "UI Only" instructions, we will skip those steps and use the already imported tool withing our wxo instance. Fot detailed instructions see the instructions version with ADK and Python. 
 
-> **Console option (SaaS):** From the Orchestrate web console, navigate to **Tools → Add tool → Python**, then upload `assets/tools/check_server_status_tool.py`.
+We will now move to creating the agent and then add the tool that is already imported to the agent.
 
-#### 2) Import the Server Status Agent YAML
+**Step 2.** **Create Server Status Agent**
 
-This binds the **Server Status Agent** to the `check_server_status` tool you just imported.
+1. Navigate to the Agent Builder tab.
 
-- Run: `orchestrate agents import -f assets/agents/server_status_agent.yaml`
-- Verify: `orchestrate agents list` → you should see `server_status_agent`
+2. To create a new agent click on **All agents → Create Agent → Enter name and description for your agent → Create**
 
-> **Console option (SaaS):** Go to **Agents → Add agent**, upload `assets/agents/server_status_agent.yaml`, then save.
+   ![alt text](attachments/wxo_agent1.png)
 
-#### 3) Quick sanity checks
+   3. Give your agent a name. server_status_agent_(with initials)`
 
-- Ask: "Check if ATT.com is up."
+   4. Add the following description for your agent.
+
+   ```
+   The Server Status Agent checks if a given HTTP/HTTPS server is currently online and reachable.
+   ```
+
+   5. Click Create
+
+   ![alt text](attachments/wxo_agent20.png)
+
+   **Step 3.** **Adding the Tool to Server Status Agent**
+
+​	Now that we've created our Agent, we can add the incident diagnosis tool. 
+1. Scroll down to the **Toolset** section and click on **Add Tool**.
+
+2. Since it is already imported for us, locate the `check_server_status_OC` tool using "**Add from local instance**" option and add it to the agent.
+   ![alt text](attachments/wxo_agent21.png)
+
+   You can use search bar to find the tool easily, start trying "check" and locate the "check_server_status_OC" tool. 
+
+   Check the box and click to Add to Agent button.
+
+   ![](attachments/wxo_agent22.png)
+
+Now, you should be able to see the newly added "check_server_status_OC" tool to your Agent as shown below. 
+
+![alt text](attachments/wxo_agent23.png)
+
+- Lastly scroll down to the **Behavior** section and **add the following instructions.** 
+
+  ```
+  - When the user provides a server URL or address, call the `check_server_status` tool.
+  - If the tool responds saying the URL is UP then respond back to the user saying the provided URL is UP and running
+  ```
+
+![alt text](attachments/wxo_agent24.png)
+
+#### **Step 4. Test the Agent**
+
+- Ask: "Check if ATT.com is up"
 - The agent should call the `check_server_status` tool and return whether the server is reachable.
 - If no response or an error occurs, confirm the tool is present and correctly linked to the agent.
-
-#### 4) Common troubleshooting tips
-
-- **Tool not found:** Re-run `orchestrate tools list`. If `check_server_status` is missing, re-import it.
-- **Incorrect binding:** Verify that the agent YAML references `check_server_status` exactly as the tool name.
-- **Network restrictions:** Ensure the SaaS environment can reach the target server (some internal endpoints may be blocked).
 
 The **Server Status Agent** is now ready. It can be queried directly or invoked by the Supervisor Agent to check server availability in real time.
 
 </details>
 
 <details open id="the-supervisor-agent">
-<summary><h3>The Supervisor Agent</h3></summary>
+<summary><h3>The Orchestrator: NOC Supervisor Agent</h3></summary>
+
 
 The **Supervisor Agent** acts as the routing brain for this use case. It interprets a user's request and delegates the task to the correct specialist agent:
 
@@ -358,20 +459,36 @@ The **Supervisor Agent** acts as the routing brain for this use case. It interpr
 
 This section wires up the Supervisor so it can orchestrate the end-to-end flow from detection → diagnosis → remediation → communication.
 
-#### 1) Create the Supervisor Agent
+**Step 1.** **Create NOC Supervisor Agent**
 
-This [add instructions to create supervisor agent]
+1. Navigate to the Agent Builder tab.
+
+2. To create a new agent click on **All agents → Create Agent → Enter name and description for your agent → Create**
+
+   ![alt text](attachments/wxo_agent1.png)
+
+   3. Give your agent a name. noc_supervisor_agent_(with initials)`
+
+   4. Add the following description for your agent.
+
+   ```
+   The NOC Supervisor Agent is responsible for routing user requests to the most relevant operational agent.
+   It interprets queries from NOC engineers and delegates tasks to specialized agents like Network Status, Communications, Incident Diagnosis, or Server Status.
+   ```
+
+   5. Click Create
+
+   ![alt text](attachments/wxo_agent25.png)
 
 
-
-#### 2) 2. Add Collaborator Agents to the NOC_Supervisor_Agent
+ **2. Add Collaborator Agents to the NOC_Supervisor_Agent**
 
 - Go to Manage Agents - > Click on NOC_Supervisor_Agent
-- Click on Toolset -> Add Agent as shown in screenshot
+- Click on Toolset -> Add the Agents as shown in screenshot below
   ![alt text](attachments/image.png)
 - Choose "Add from Local Instance" option
   ![alt text](attachments/image-1.png)
-- Click on 4 Agents you created as shown below:
+- Check the 4 Agents you created as shown below:
   - network_status_agent
   - server_status_agent
   - incident_diagnosis_agent
@@ -379,9 +496,32 @@ This [add instructions to create supervisor agent]
 - Click on Add to Agent
   ![alt text](attachments/image-2.png)
 
-The **Supervisor Agent** is now ready. It provides a single conversational entry point and automatically delegates tasks to the right agent, enabling an end-to-end incident flow.
 
-#### 3) Testing the Supervisor Agent (routing behavior)
+
+ **3. Add Agent instructions to Behavior section**
+
+- Lastly scroll down to the **Behavior** section and **add the following instructions.** 
+
+  ```
+  Based on the user question, route the question to one of the below agents.
+  
+  - Use the **network_status_agent** for any question about network status, operational health of sites, nodes, or active incidents.
+  - Use the **communications_agent** for any request to draft internal or external notifications about incidents, maintenance, or operational updates.
+  - Use the **incident_diagnosis_agent** when the user provides an incident log and needs root cause analysis or a resolution plan.
+  - Use the **server_status_agent** when the user wants to check if a specific server or URL is up or reachable.
+  
+  DO's
+  - Display the output of the agent to the user 
+  
+  DONT's
+  - DO NOT invoke multiple agents for a single question, 1 question should be routed to only 1 agent
+  ```
+
+![alt text](attachments/wxo_agent26.png)
+
+The **NOC Supervisor Agent** is now ready. It provides a single conversational entry point and automatically delegates tasks to the right agent, enabling an end-to-end incident flow.
+
+#### Step 4: Test the NOC Supervisor Agent (routing behavior)
 
 Try these natural-language prompts to validate routing:
 
@@ -390,26 +530,6 @@ Try these natural-language prompts to validate routing:
 - "**Here's an incident log 'BGP session dropped due to incorrect neighbor settings in config push from NOC.' what's the root cause and fix?**" → should route to **Incident Diagnosis Agent** (uses `diagnose_incident_log`, consults resolution guides if configured)
 - "**Draft a clear email addressing the above issue and the resolution steps involved.**" → should route to **Communications Agent**
 - "**Send the above email to {email_id}**" → (send via Outlook if configured)
-
-#### 5) Bonus Challenge: Override the Default Greeting
-
-By default, new agents start with "Hello! I am watsonx Orchestrate, an AI assistant, created by IBM. How can I help you today?". You can override this in the Orchestrate Console.
-
-1. Go to the Orchestrate Console.
-2. In the left-hand navigation (hamburger menu), go to Build → Agent Builder.
-3. Click on `supervisor_agent` to view its details.
-4. Edit the Agent Behavior in a way it says "Hello, I'm the Supervisor. I can help you check network and server status, diagnose incidents, or draft communications. How can I help you today?"
-   > Here are some things you may want to try:
-   >
-   > - Role clarity: Specify to the agent that it should clearly identify itself as the Supervisor.
-   > - Task framing: Tell the agent to summarize the types of requests it can handle (network checks, incident diagnosis, communications).
-   > - Override default: Make sure to instruct the agent to fully replace the standard watsonx greeting with this custom introduction.
-   > - Constraints: Specify that the agent should not mention IBM or watsonx.
-   > - Tone & personality: You can guide the agent to adopt a professional, supportive, concise, or friendly tone to make the greeting more engaging.
-
-✅ The next time you start a chat, the agent should greet with your customized introduction instead of the default watsonx Orchestrate greeting.
-
-</details>
 
 </details>
 
