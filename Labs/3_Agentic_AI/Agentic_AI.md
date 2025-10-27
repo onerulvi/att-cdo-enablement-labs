@@ -2,11 +2,18 @@
 
 ![alt text](attachments/ATT_IBM_logo.png)
 
+
+
 This use case is about an AI-powered assistant supporting a Network Supervisor in managing service disruptions. The Supervisor is responsible for monitoring the health of regional networks, diagnosing incidents, coordinating across infrastructure and communications, and ensuring timely remediation to minimize downtime. We apply an agentic solution based on watsonx Orchestrate and watsonx.ai to optimize these processes.  
 
 ---
 
+<details open id="use_case_details">
+<summary><h2>Use Case Details</h2></summary>
+In this lab, we will configure a set of 4 agents and 1 supervisor agent inside **Watsonx Orchestrate**. Each agent has a distinct responisbility and a unique toolset to comeplete a specific role in the incident response agentic system. The **Supervisor Agent** coordinates work among the agents by orchestrating requests to the appropriate agent. Below you will find an outline of all the agents we will build during this lab.
+
 ## The Problem  
+
 A large telecommunications provider faces frequent challenges in its Network Operations Center (NOC). Supervisors often deal with fragmented monitoring tools, siloed logs, and manual processes when diagnosing and resolving service disruptions. This results in long mean-time-to-resolution (MTTR), delayed communications to field teams, and occasional gaps in incident handovers. The manual coordination between teams further slows down operations, leading to increased costs and customer dissatisfaction.  
 
 ---
@@ -54,28 +61,11 @@ A large telecommunications provider faces frequent challenges in its Network Ope
 
 ---
 
-## Step-by-step Instructions  
+</details>
 
-Option 1: watsonx Orchestrate UI Only
-
-Option 2: using ADK 
-
-## Table of Contents
-
-- [Introduction](#introduction)
-- [Lab 1: Create Your First Agent](#lab-1-create-your-first-agent)
-  - [The Network Status Agent](#the-network-status-agent)
-  - [The Communication Agent](#the-communication-agent)
-- [Part 2: Agent Development Kit](#part-2-agent-development-kit)
-  - [The Incident Diagnosis Agent](#the-incident-diagnosis-agent)
-  - [The Server Status Agent](#the-server-status-agent)
-  - [The Supervisor Agent](#the-supervisor-agent)
-- [Summary](#summary)
-
-<details open id="introduction">
-<summary><h2>Introduction</h2></summary>
+<details open id="instructions">
+<summary><h2>Step-by-step Instructions</h2></summary>
 In this lab, we will configure a set of 4 agents and 1 supervisor agent inside **Watsonx Orchestrate**. Each agent has a distinct responisbility and a unique toolset to comeplete a specific role in the incident response agentic system. The **Supervisor Agent** coordinates work among the agents by orchestrating requests to the appropriate agent. Below you will find an outline of all the agents we will build during this lab.
-
 
 ---
 
@@ -84,25 +74,25 @@ In this lab, we will configure a set of 4 agents and 1 supervisor agent inside *
 </details>
 <details open id="watsonx-orchestrate-setup">
 <summary><h3>Launch Watsonx Orchestrate</h3></summary>
+<details open id="step1">
+<summary><h2>Step-1: Launch Watsonx Orchestrate</h2></summary>
 
 Watsonx Orchestrate is IBM's platform for creating, managing, and running AI-driven digital workers and agentic flows. In this bootcamp, you will be provided an IBM Cloud SaaS instance of Orchestrate. Follow the steps below to start your Orchestrate Instance:
 
 1. **Access your Orchestrate Instance**
-
    - In the **IBM Cloud Dashboard navigate to the Resource List using the hamburger menu on top left.** 
      
    - Under AI/ML click on **watsonx Orchestrate** and launch the application.
      ![alt text](attachments/cloud_resource_list.png)
      ![alt text](attachments/Orchestrate_launch_page.png)
-
+   
    - If you don't see any resources under AI/ML in your IBM Cloud Account kindly reachout to an instructor for assistance.
    - Once you have access to an Orchestrate instance you may continue to the next section
 
 </details>
 
 <details open id="lab-1-create-your-first-agent">
-<summary><h2>Step-1: Create Agents and Tools</h2></summary>
-
+<summary><h2>Step-2: Create 4 Agents and Tools</h2></summary>
 
 Navigate to the Watsonx Orchestrate home page. In the left-hand navigation menu, click on build to expand the menu and click on "**Agent Builder**". Agents depend on tools to perform their functions. When you define an agent, you specify which tools it can use in the tools section. The system needs the tools to exist before it can validate and import an agent that references them. 
 
@@ -277,10 +267,6 @@ This tool provides the functionality for the agent to draft and (if configured) 
 
 </details>
 
-**[Add steps to create 2 agents and add tools already there]**
-
-**{END OF 1st PART}**
-
 <details open id="the-incident-diagnosis-agent">
 <summary><h3>Agent #3: The Incident Diagnosis Agent</h3></summary>
 The Incident Diagnosis Agent  responsible for analyzing incident logs, tagging them with the most likely root cause, and suggesting a resolution plan. It relies on a Python tool to parse logs and a knowledge base of resolution guides for remediation steps.
@@ -446,8 +432,10 @@ The **Server Status Agent** is now ready. It can be queried directly or invoked 
 
 </details>
 
+</details>
+
 <details open id="the-supervisor-agent">
-<summary><h3>The Orchestrator: NOC Supervisor Agent</h3></summary>
+<summary><h3>Step 3: The Orchestrator: NOC Supervisor Agent</h3></summary>
 
 
 The **Supervisor Agent** acts as the routing brain for this use case. It interprets a user's request and delegates the task to the correct specialist agent:
