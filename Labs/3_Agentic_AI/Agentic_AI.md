@@ -95,8 +95,7 @@ Navigate to the Watsonx Orchestrate home page. In the left-hand navigation menu,
 <summary><h3>Agent #1: The Network Status Agent</h3></summary>
 The Network Status Agent answers questions about network health (regions, sites, nodes, active incidents).
 In this lab, it does not use a knowledge base. Instead, it calls a `get_data` tool defined via an OpenAPI JSON so responses are fetched live from the source.
-
-**Step 1.** **Create the  `get_data`tool by importing  OpenAPI spec files (.json)**
+#### **Step 1.** **Create the  `get_data`tool by importing  OpenAPI spec files (.json)**
 
 - We will first import an external REST API as a tool. To do this we will import an OpenAPI Spec into WXO
   1. Navigate to the Agent Builder tab.
@@ -120,7 +119,7 @@ In this lab, it does not use a knowledge base. Instead, it calls a `get_data` to
   4. If you're using a shared environment change the name of your tool not to overwrite other users work.
      ![alt text](attachments/image-7.png)
 
-**Step 2.** **Create Network Status Agent**
+#### **Step 2.** **Create Network Status Agent**
 
 - Now we will create our first agent. We will add the tool above into it's toolset and test the results.
 
@@ -140,12 +139,14 @@ In this lab, it does not use a knowledge base. Instead, it calls a `get_data` to
 - Take some time to fully Explore the Agent screen
   ![alt text](attachments/wxo_agent3.png)
 
-- Now that we've explored what the platform provides for our Agent lets add our tool.
+  #### **Step 3: Adding the tool to the Agent**
+  
   1.  Scroll down to the **Toolset** section and click on "Add Tool".
   2.  Since we have already added the `get_data` tool to our local instance, we can select and add it to the agent.
       ![alt text](attachments/wxo_agent4.png)
       ![alt text](attachments/wxo_agent5.png)
       ![alt text](attachments/wxo_agent6.png)
+  
 - Lastly we must add instructions for our agent. **This will explain to the LLM what to do**, and how to utilize its tools to acomplish the goal. It is crucial to provide instructions to let agents perform effectively. It decides the behavior of the agent and provides context for how to use its tools and agents.
 
   1.  Scroll down to the **Behavior** section and **add the following instructions.** 
@@ -158,16 +159,14 @@ In this lab, it does not use a knowledge base. Instead, it calls a `get_data` to
 
 ![alt text](attachments/wxo_agent7.png)
 
-
-
-**Step 3.** **Now its time to test our agent**
+#### **Step 4.** **Now its time to test our agent**
 
 - In the chat ask `What is the status of site S003?`The agent should call `get_data` behind the scenes.
 - **Click on the resoning tab** and explore what it did to retrive the answer.
 - `Can you provide me a table of all the cell towers in the system with their relevant status?`
 - `Why is site S004 down?`
 
-**Congratulations you've just completed building your frist Agent!** 
+### Congratulations! You've just completed building your first Agent!
 
 The **Network Status Agent** is ready. It will now route natural-language queries to the `get_data` tool to return live network status.
 
@@ -175,8 +174,6 @@ The **Network Status Agent** is ready. It will now route natural-language querie
 
 <details open id="the-communication-agent">
 <summary><h3>Agent #2: The Communication Agent</h3></summary>
-
-
 The **Communications Agent** is responsible for drafting clear and professional notification emails about network incidents or operational updates.
 
 #### Step 1: Import the Outlook Email Tool
@@ -263,8 +260,7 @@ This tool provides the functionality for the agent to draft and (if configured) 
 <details open id="the-incident-diagnosis-agent">
 <summary><h3>Agent #3: The Incident Diagnosis Agent</h3></summary>
 The Incident Diagnosis Agent  responsible for analyzing incident logs, tagging them with the most likely root cause, and suggesting a resolution plan. It relies on a Python tool to parse logs and a knowledge base of resolution guides for remediation steps.
-
-**Step 1.** **Import Incident Diagnosis Tool**
+#### **Step 1.** **Import Incident Diagnosis Tool**
 
 This tool provides log analysis capabilities so the agent can extract error patterns and classify incidents.
 
@@ -272,7 +268,7 @@ This tool provides log analysis capabilities so the agent can extract error patt
 
 We will now move to creating the agent and then add the tool that is already imported to the agent.
 
-**Step 2.** **Create Incident Diagnosis Agent**
+#### **Step 2.** **Create Incident Diagnosis Agent**
 
 1. Navigate to the Agent Builder tab.
 
@@ -292,7 +288,7 @@ We will now move to creating the agent and then add the tool that is already imp
 
    ![alt text](attachments/wxo_agent13.png)
 
-   **Step 3.** **Adding the Tool to Incident Diagnosis Agent**
+   #### **Step 3.** **Adding the Tool to Incident Diagnosis Agent**
 
 Now that we've created our Agent, we can add the incident diagnosis tool. 
 1. Scroll down to the **Toolset** section and click on **Add Tool**.
@@ -320,7 +316,7 @@ Now, you should be able to see the newly added "diagnosis_incident_log_OC" tool 
 
 ![alt text](attachments/wxo_agent17.png)
 
-**Step 4. Import the Incident Resolution Knowledge Base**
+#### **Step 4. Import the Incident Resolution Knowledge Base**
 
 Knowledge Bases refer to Vector Stores that allow your Agents to query unstructured data such as documents. You can use the WXO interal Knowledge Base or connect your own vector store externally. 
 - The knowledge base in our case provides mappings from error types to recommended resolution plans. The agent consults it after the tool has identified the root cause.
@@ -341,7 +337,7 @@ Knowledge Bases refer to Vector Stores that allow your Agents to query unstructu
   
   4. Click Save. **This may take 1 min or two.**
   
-  5. Configure the Knowledge Base
+      #### Step 5. Configure the Knowledge Base
   
   i. Scroll down to the Knowledge section and click `Edit knowledge settings`
   ![alt text](attachments/kb4.png)
@@ -349,7 +345,7 @@ Knowledge Bases refer to Vector Stores that allow your Agents to query unstructu
   ii. Modify the retrieval criteria and save
   ![alt text](attachments/kb5.png)
 
-**Step 5. Test the Agent**
+#### **Step 6. Test the Agent**
 
 - Test your agent with the following prompt: `Here is the log: "UPS unit failed at site S002. Generator did not auto-start. Site running on battery only."`
 - The agent should respond with both the **error type** and the **resolution plan**.  
@@ -368,7 +364,7 @@ This tool allows the agent to test HTTP/HTTPS endpoints and return whether they 
 
 We will now move to creating the agent and then add the tool that is already imported to the agent.
 
-**Step 2.** **Create Server Status Agent**
+#### **Step 1.** **Create Server Status Agent**
 
 1. Navigate to the Agent Builder tab.
 
@@ -388,7 +384,7 @@ We will now move to creating the agent and then add the tool that is already imp
 
    ![alt text](attachments/wxo_agent20.png)
 
-   **Step 3.** **Adding the Tool to Server Status Agent**
+   #### **Step 2.** **Adding the Tool to Server Status Agent**
 
 ​	Now that we've created our Agent, we can add the incident diagnosis tool. 
 1. Scroll down to the **Toolset** section and click on **Add Tool**.
@@ -415,7 +411,7 @@ Now, you should be able to see the newly added "check_server_status_OC" tool to 
 
 ![alt text](attachments/wxo_agent24.png)
 
-#### **Step 4. Test the Agent**
+#### **Step 3. Test the Agent**
 
 - Ask: "Check if ATT.com is up"
 - The agent should call the `check_server_status` tool and return whether the server is reachable.
@@ -440,7 +436,7 @@ The **Supervisor Agent** acts as the routing brain for this use case. It interpr
 
 This section wires up the Supervisor so it can orchestrate the end-to-end flow from detection → diagnosis → remediation → communication.
 
-**Step 1.** **Create NOC Supervisor Agent**
+#### **Step 1.** **Create NOC Supervisor Agent**
 
 1. Navigate to the Agent Builder tab.
 
@@ -461,8 +457,7 @@ This section wires up the Supervisor so it can orchestrate the end-to-end flow f
 
    ![alt text](attachments/wxo_agent25.png)
 
-
- **2. Add Collaborator Agents to the NOC_Supervisor_Agent**
+####  **Step 2: Add Collaborator Agents to the NOC_Supervisor_Agent**
 
 - Go to Manage Agents - > Click on NOC_Supervisor_Agent
 - Click on Toolset -> Add the Agents as shown in screenshot below
@@ -479,7 +474,7 @@ This section wires up the Supervisor so it can orchestrate the end-to-end flow f
 
 
 
- **3. Add Agent instructions to Behavior section**
+####  **Step 3. Add Agent instructions to Behavior section**
 
 - Lastly scroll down to the **Behavior** section and **add the following instructions.** 
 
@@ -523,7 +518,7 @@ In this lab, we explored the use case of a Supervisor managing network incidents
 
 Finally, we brought everything together through the **Supervisor Agent**, which serves as the main conversational entry point. From this single interface, the Supervisor can ask natural language questions and the system will automatically route the request to the appropriate agent.
 
-This exercise provides a reference implementation to help you understand how multiple specialized agents can be orchestrated in **watsonx Orchestrate (SaaS)**. Some aspects are simulated, and in a production environment you would extend the integrations with real systems of record, monitoring platforms, and communication services. A truly agentic solution would go further by adding reasoning and planning capabilities, allowing the system to autonomously investigate, resolve, and communicate about incidents end-to-end.
+This exercise provides a reference implementation to help you understand how multiple specialized agents can be orchestrated in **watsonx Orchestrate**. Some aspects are simulated, and in a production environment you would extend the integrations with real systems of record, monitoring platforms, and communication services. A truly agentic solution would go further by adding reasoning and planning capabilities, allowing the system to autonomously investigate, resolve, and communicate about incidents end-to-end.
 
 Our goal here is to give you a starting point and spark ideas about how to apply agentic AI in real operational contexts. With these foundations, you can begin experimenting with automating parts of your own workflows and consider where autonomous AI decision-making could add the most value.
 
