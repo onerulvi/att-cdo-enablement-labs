@@ -1,4 +1,4 @@
-# Agentic AI Lab: Network Supervisor Assistant - NSA 
+# Agentic AI Lab: Network Supervisor Assistant 
 
 ![alt text](attachments/ATT_IBM_logo.png)
 
