@@ -67,13 +67,6 @@ A large telecommunications provider faces frequent challenges in its Network Ope
 <summary><h2>Step-by-step Instructions</h2></summary>
 In this lab, we will configure a set of 4 agents and 1 supervisor agent inside **Watsonx Orchestrate**. Each agent has a distinct responisbility and a unique toolset to comeplete a specific role in the incident response agentic system. The **Supervisor Agent** coordinates work among the agents by orchestrating requests to the appropriate agent. Below you will find an outline of all the agents we will build during this lab.
 
----
-
-<details open id="pre-requisites">
-<summary><h3>Pre-requisites</h3></summary>
-</details>
-<details open id="watsonx-orchestrate-setup">
-<summary><h3>Launch Watsonx Orchestrate</h3></summary>
 <details open id="step1">
 <summary><h2>Step-1: Launch watsonx Orchestrate</h2></summary>
 
