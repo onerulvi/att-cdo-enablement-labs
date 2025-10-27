@@ -435,7 +435,7 @@ The **Server Status Agent** is now ready. It can be queried directly or invoked 
 </details>
 
 <details open id="the-supervisor-agent">
-<summary><h3>Step 3: The Orchestrator: NOC Supervisor Agent</h3></summary>
+<summary><h2>Step 3: Creating The Orchestrator/Supervisor Agent</h2></summary>
 
 
 The **Supervisor Agent** acts as the routing brain for this use case. It interprets a user's request and delegates the task to the correct specialist agent:
