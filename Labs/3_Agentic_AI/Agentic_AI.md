@@ -75,7 +75,7 @@ In this lab, we will configure a set of 4 agents and 1 supervisor agent inside *
 <details open id="watsonx-orchestrate-setup">
 <summary><h3>Launch Watsonx Orchestrate</h3></summary>
 <details open id="step1">
-<summary><h2>Step-1: Launch Watsonx Orchestrate</h2></summary>
+<summary><h2>Step-1: Launch watsonx Orchestrate</h2></summary>
 
 Watsonx Orchestrate is IBM's platform for creating, managing, and running AI-driven digital workers and agentic flows. In this bootcamp, you will be provided an IBM Cloud SaaS instance of Orchestrate. Follow the steps below to start your Orchestrate Instance:
 
